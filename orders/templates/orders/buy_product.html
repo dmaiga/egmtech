@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Achat direct{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto mt-10">
+
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+
+            <h2 class="card-title text-2xl">
+                Achat direct
+            </h2>
+
+            <div class="divider"></div>
+
+            <div class="flex gap-6">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="w-40 h-40 object-contain rounded-lg">
+                {% endif %}
+
+                <div>
+                    <h3 class="text-xl font-semibold">{{ product.name }}</h3>
+                    <p class="text-gray-500 mt-2">{{ product.description|truncatechars:120 }}</p>
+                    <p class="text-2xl font-bold text-primary mt-4">
+                        {{ product.price }} FCFA
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        Stock disponible : {{ product.stock }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Quantité</span>
+                    </label>
+                    {{ form.quantity }}
+                </div>
+
+                {% if form.errors %}
+                    <div class="alert alert-error">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <div class="card-actions justify-end mt-6">
+                    <button type="submit" class="btn btn-success">
+                        Confirmer l'achat
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

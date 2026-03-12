@@ -1,0 +1,130 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Détail Commande{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">
+    Commande #{{ order.id }}
+</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Infos générales -->
+    <div class="card bg-base-100 shadow">
+        <div class="card-body">
+            <h2 class="card-title">Informations</h2>
+            <p><strong>Client :</strong> {{ order.client.username }}</p>
+            <p><strong>Email :</strong> {{ order.client.email }}</p>
+            <p><strong>Type :</strong>
+                {% if order.order_type == "DEVIS" %}
+                    <span class="badge badge-warning">Demande de devis</span>
+                {% else %}
+                    <span class="badge badge-success">Achat direct</span>
+                {% endif %}
+            </p>
+            <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y H:i" }}</p>
+            <p><strong>Total estimé :</strong> {{ order.total_amount }} FCFA</p>
+        </div>
+    </div>
+
+    <!-- Statut + Actions -->
+    <div class="card bg-base-100 shadow">
+        <div class="card-body">
+            <h2 class="card-title">Statut</h2>
+
+            <p class="mb-4">
+                Statut actuel :
+                <strong>{{ order.get_status_display }}</strong>
+            </p>
+
+            {% if order.status != "CONFIRMEE" %}
+                <form method="post" action="{% url 'bo_order_update_status' order.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="CONFIRMEE">
+                    <button type="submit" class="btn btn-success w-full mb-2">
+                        Confirmer
+                    </button>
+                </form>
+            {% endif %}
+
+            {% if order.status != "ANNULEE" %}
+                <form method="post" action="{% url 'bo_order_update_status' order.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="status" value="ANNULEE">
+                    <button type="submit" class="btn btn-error w-full">
+                        Annuler
+                    </button>
+                </form>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+<!-- SECTION DEVIS -->
+{% if order.order_type == "DEVIS" %}
+<div class="card bg-base-100 shadow mt-8 border border-warning">
+    <div class="card-body">
+        <h2 class="card-title text-warning">Détails de la demande de devis</h2>
+
+        <p class="mt-4">
+            <strong>Commentaire du client :</strong>
+        </p>
+
+        <div class="bg-base-200 p-4 rounded mt-2">
+            {{ order.commentaire|linebreaks }}
+        </div>
+
+        <div class="mt-6">
+            <form method="post">
+                {% csrf_token %}
+                <label class="label">
+                    <span class="label-text">Note interne (admin)</span>
+                </label>
+                <textarea name="admin_note" class="textarea textarea-bordered w-full">
+                    {{ order.admin_note }}
+                </textarea>
+
+                <button type="submit" class="btn btn-primary mt-4">
+                    Enregistrer la note
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Produits commandés -->
+<div class="card bg-base-100 shadow mt-8">
+    <div class="card-body">
+
+        <h2 class="card-title mb-4">Produits demandés</h2>
+
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total ligne</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.unit_price }} FCFA</td>
+                    <td>{{ item.quantity }} x {{ item.unit_price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

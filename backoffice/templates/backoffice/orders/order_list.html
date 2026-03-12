@@ -1,0 +1,67 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Commandes{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Gestion des commandes</h1>
+</div>
+
+<div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-0">
+
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.client.username }}</td>
+                    <td>{{ order.order_type }}</td>
+                    <td>
+                        {% if order.status == "CONFIRMEE" %}
+                            <span class="badge badge-success">Confirmée</span>
+                        {% elif order.status == "ANNULEE" %}
+                            <span class="badge badge-error">Annulée</span>
+                        {% elif order.status == "A_VALIDER" %}
+                            <span class="badge badge-warning">À valider</span>
+                        {% else %}
+                            <span class="badge badge-neutral">En attente</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.total_amount }} FCFA</td>
+                    <td>{{ order.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'bo_order_detail' order.pk %}"
+                           class="btn btn-sm btn-outline btn-primary">
+                            Voir
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center py-6">
+                        Aucune commande pour le moment.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

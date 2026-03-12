@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="corporate">
+<head>
+    <meta charset="UTF-8">
+    <title>Backoffice - {% block title %}{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+</head>
+<body class="bg-base-200">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <div class="w-64 bg-white shadow-lg p-6">
+        <h2 class="text-xl font-bold mb-6">EGM Admin</h2>
+
+        <ul class="menu">
+            <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'bo_order_list' %}"  >Commandes</a></li>
+            <li><a href="{% url 'bo_product_list' %}">Produits</a></li>
+            <li><a href="{% url 'bo_category_list' %}">Catégories</a></li>
+        
+        </ul>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 p-8">
+        {% block content %}{% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

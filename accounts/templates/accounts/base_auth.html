@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Authentification | EGM Technologies{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { egmblue: "#1E3A8A", egmred: "#DC2626" } } }
+        }
+    </script>
+</head>
+<body class="bg-white min-h-screen">
+
+    <div class="flex min-h-screen">
+        
+        <div class="hidden lg:flex lg:w-1/2 relative items-center justify-center p-12 overflow-hidden bg-slate-900">
+            
+            <div class="absolute inset-0 z-0">
+                <img src="{% static 'images/hero_section.avif' %}" 
+                     alt="Background" 
+                     class="w-full h-full object-cover opacity-40">
+                <div class="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-slate-900/60 to-slate-900/90"></div>
+            </div>
+
+            <div class="absolute inset-0 opacity-20 z-10" 
+                 style="background-image: radial-gradient(circle at 2px 2px, #607188 1px, transparent 90); background-size: 40px 40px;">
+            </div>
+            
+            <div class="relative z-20 max-w-lg">
+                <a href="{% url 'home' %}" class="flex items-center gap-3 mb-12 group">
+                    <div class="bg-white p-2 rounded-xl transition-transform group-hover:scale-105">
+                        <img src="{% static 'images/egm_logo.png' %}" alt="EGM" class="h-10 w-auto">
+                    </div>
+                    <span class="text-2xl font-black text-white uppercase tracking-tighter">EGM Tech</span>
+                </a>
+
+                <h2 class="text-5xl font-black text-white leading-none uppercase tracking-tighter mb-8 italic">
+                    Expertise <br><span class="text-egmred">& Sécurité</span> <br>au Mali.
+                </h2>
+
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-egmblue flex items-center justify-center text-white flex-none font-bold">✓</div>
+                        <div>
+                            <p class="text-white font-bold uppercase text-sm tracking-tight">Leader de la maintenance</p>
+                            <p class="text-slate-400 text-xs mt-1">Plus de 500 installations sécurisées à Bamako et dans les régions.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-egmblue flex items-center justify-center text-white flex-none font-bold">✓</div>
+                        <div>
+                            <p class="text-white font-bold uppercase text-sm tracking-tight">Support Technique Réactif</p>
+                            <p class="text-slate-400 text-xs mt-1">Nos ingénieurs vous accompagnent du devis à la mise en service.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-16 pt-8 border-t border-white/10">
+                    <p class="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em]">Certifié Excellence & Qualité Mali</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 bg-white">
+            <div class="w-full max-w-md">
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-info{% endif %} rounded-2xl text-xs font-bold text-white uppercase mb-6 shadow-lg border-none">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">Tableau de bord</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+    <!-- COMMANDES -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Commandes</h2>
+
+            <p>Total : <strong>{{ total_orders }}</strong></p>
+            <p>En attente : <strong>{{ pending_orders }}</strong></p>
+            <p>Confirmées : <strong>{{ confirmed_orders }}</strong></p>
+
+            <div class="card-actions justify-end mt-4">
+                <a href="{% url 'bo_order_list' %}" class="btn btn-primary btn-sm">
+                    Voir les commandes
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUITS -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Produits</h2>
+
+            <p>Total : <strong>{{ total_products }}</strong></p>
+            <p>Actifs : <strong>{{ active_products }}</strong></p>
+
+            <div class="card-actions justify-end mt-4">
+                <a href="{% url 'bo_product_list' %}" class="btn btn-primary btn-sm">
+                    Gérer les produits
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title">Catégories</h2>
+
+            <p>Total : <strong>{{ total_categories }}</strong></p>
+
+            <div class="card-actions justify-end mt-4">
+                <a href="{% url 'bo_category_list' %}" class="btn btn-primary btn-sm">
+                    Gérer les catégories
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

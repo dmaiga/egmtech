@@ -1,0 +1,49 @@
+{% extends "accounts/base_auth.html" %}
+
+{% block title %}Connexion | EGM Tech{% endblock %}
+
+{% block content %}
+<div class="mb-10">
+    <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tighter italic">Connexion</h2>
+    <p class="text-slate-400 text-sm font-bold uppercase tracking-tight mt-1">Accédez à votre espace sécurisé</p>
+</div>
+
+<form method="post" class="space-y-6">
+    {% csrf_token %}
+
+    <div class="form-control">
+        <label class="label pb-1">
+            <span class="label-text text-[10px] font-black uppercase text-slate-400 tracking-widest">Identifiant</span>
+        </label>
+        <input type="text" name="username" placeholder="Nom d'utilisateur" 
+               class="input input-bordered w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+    </div>
+
+    <div class="form-control">
+        <label class="label pb-1">
+            <span class="label-text text-[10px] font-black uppercase text-slate-400 tracking-widest">Mot de passe</span>
+        </label>
+        <input type="password" name="password" placeholder="••••••••" 
+               class="input input-bordered w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+    </div>
+
+    <div class="flex items-center justify-between px-1">
+        <label class="label cursor-pointer gap-2">
+            <input type="checkbox" class="checkbox checkbox-xs rounded border-slate-300" />
+            <span class="label-text text-xs text-slate-400 font-bold uppercase">Se souvenir</span>
+        </label>
+        <a href="#" class="text-xs font-bold text-egmblue hover:underline uppercase">Oublié ?</a>
+    </div>
+
+    <button type="submit" class="btn bg-egmblue hover:bg-slate-800 text-white border-none w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-blue-900/20 mt-4 transition-all hover:scale-[1.02]">
+        Se connecter
+    </button>
+</form>
+
+<div class="mt-12 text-center border-t border-slate-100 pt-8">
+    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">
+        Pas encore de compte ? 
+        <a href="{% url 'register' %}" class="text-egmred hover:underline ml-2">Créer un compte</a>
+    </p>
+</div>
+{% endblock %}

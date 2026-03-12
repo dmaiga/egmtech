@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="relative w-full bg-slate-900 min-h-[450px] md:min-h-[600px] flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=2000" 
+             alt="Vidéosurveillance Pro" 
+             class="w-full h-full object-cover opacity-40">
+        <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 md:px-12 relative z-10 w-full">
+        <div class="max-w-2xl py-12 md:py-20 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-egmred text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                </span>
+                Expertise Mali
+            </div>
+            <h1 class="text-3xl md:text-6xl font-black text-white leading-tight mb-6">
+                Vidéosurveillance & <br class="hidden md:block">
+                <span class="text-egmblue bg-white px-2 italic">Réseaux Intelligents</span>
+            </h1>
+            <p class="text-base md:text-xl text-slate-300 mb-10 leading-relaxed max-w-lg mx-auto md:mx-0">
+                EGM Technologies déploie vos infrastructures de sécurité électronique, fibre optique et solutions solaires partout au Mali.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <a href="{% url 'product_list' %}" class="btn btn-md md:btn-lg bg-egmred hover:bg-red-700 text-white border-none md:px-10">
+                    Nos équipements
+                </a>
+                <a href="{% url 'request_quote' %}" class="btn btn-md md:btn-lg btn-outline text-white border-white hover:bg-white hover:text-slate-900 md:px-10">
+                    Obtenir un devis
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+    
+    <section class="mb-12 md:mb-16">
+        <h2 class="text-lg md:text-xl font-bold mb-8 text-gray-800 uppercase tracking-wider border-l-4 border-egmblue pl-3">
+            Nos Domaines d'Expertise
+        </h2>
+        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+            {% for cat in categories %}
+            <a href="#" class="flex flex-col items-center group">
+                <div class="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-egmblue transition-all duration-300 mb-2 md:mb-4 bg-white shadow-sm flex items-center justify-center">
+                    {% if cat.image %}
+                        <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                        <span class="text-2xl">📦</span>
+                    {% endif %}
+                </div>
+                <span class="text-[10px] md:text-xs font-bold text-center uppercase text-gray-600 group-hover:text-egmblue transition-colors line-clamp-1">
+                    {{ cat.name }}
+                </span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mb-12 md:mb-16">
+        <div class="flex items-center gap-4 mb-8">
+            <h2 class="text-xl md:text-2xl font-black text-egmred uppercase tracking-tighter italic">Offres Spéciales</h2>
+            <div class="h-[2px] flex-grow bg-egmred/20"></div>
+        </div>
+        
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            {% for product in promo_products %}
+            <div class="card bg-white border border-gray-200 hover:shadow-lg transition group rounded-2xl overflow-hidden">
+                <figure class="p-4 md:p-6 bg-gray-50 relative h-32 md:h-48">
+                    <div class="badge badge-error absolute top-2 left-2 md:top-4 md:left-4 text-white font-bold text-[10px] md:text-xs border-none">-{{ product.promo_percent }}%</div>
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="h-full w-full object-contain group-hover:scale-105 transition-transform">
+                    {% endif %}
+                </figure>
+                <div class="p-3 md:p-5">
+                    <span class="text-[9px] font-bold text-egmblue uppercase">{{ product.brand }}</span>
+                    <h3 class="font-bold text-gray-800 text-xs md:text-sm h-8 md:h-10 line-clamp-2 mb-2">{{ product.name }}</h3>
+                    
+                    <div class="flex flex-col mb-4">
+                        <span class="text-[10px] line-through text-gray-400">{{ product.price }} <small>FCFA</small></span>
+                        <span class="text-sm md:text-xl font-black text-egmred">
+                            {{ product.price|floatformat:0 }} <small class="text-[10px]">FCFA</small>
+                        </span>
+                    </div>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-xs md:btn-sm btn-block bg-slate-900 text-white border-none rounded-lg">Détails</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mb-12 md:mb-16">
+        <h2 class="text-xl md:text-2xl font-black text-slate-800 uppercase tracking-tighter mb-8 italic">Derniers Arrivages</h2>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            {% for product in latest_products %}
+            <div class="card bg-white border border-gray-100 hover:border-egmblue transition rounded-2xl overflow-hidden">
+                <figure class="p-4 bg-gray-50 h-32 md:h-40">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="h-full w-full object-contain">
+                    {% endif %}
+                </figure>
+                <div class="p-3 md:p-4 text-center">
+                    <h3 class="font-bold text-xs md:text-sm line-clamp-1 mb-2">{{ product.name }}</h3>
+                    <p class="text-egmblue font-black text-sm md:text-base mb-3">{{ product.price }} <small class="text-[10px]">FCFA</small></p>
+                    <a href="{% url 'product_detail' product.slug %}" class="btn btn-xs md:btn-sm btn-block btn-outline border-slate-200 hover:bg-slate-900 hover:border-slate-900">Voir</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

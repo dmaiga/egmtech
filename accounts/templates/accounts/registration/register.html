@@ -1,0 +1,48 @@
+{% extends "accounts/base_auth.html" %}
+
+{% block title %}Inscription | EGM Tech{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-3xl font-black text-slate-900 uppercase tracking-tighter italic">S'enregistrer</h2>
+    <p class="text-slate-400 text-sm font-bold uppercase tracking-tight mt-1">Devenez client EGM Technologies</p>
+</div>
+
+<form method="post" class="space-y-4">
+    {% csrf_token %}
+
+    <div class="grid grid-cols-1 gap-4">
+        <div class="form-control">
+            <input type="text" name="username" placeholder="Nom d'utilisateur" 
+                   class="input input-bordered w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+        </div>
+        
+        <div class="form-control">
+            <input type="email" name="email" placeholder="Adresse Email" 
+                   class="input input-bordered w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+        </div>
+        
+        <div class="relative">
+            <span class="absolute inset-y-0 left-4 flex items-center text-slate-400 text-xs font-black">🇲🇱 +223</span>
+            <input type="text" name="phone" placeholder="Numéro de téléphone" 
+                   class="input input-bordered w-full pl-20 rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+        </div>
+
+        <div class="form-control">
+            <input type="password" name="password" placeholder="Mot de passe" 
+                   class="input input-bordered w-full rounded-2xl border-slate-200 bg-slate-50 focus:border-egmblue font-bold text-slate-700 h-14" required>
+        </div>
+    </div>
+
+    <button type="submit" class="btn bg-egmred hover:bg-slate-800 text-white border-none w-full h-14 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-red-900/20 mt-6 transition-all hover:scale-[1.02]">
+        Créer mon compte
+    </button>
+</form>
+
+<div class="mt-8 text-center border-t border-slate-100 pt-8">
+    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">
+        Déjà un compte ? 
+        <a href="{% url 'login' %}" class="text-egmblue hover:underline ml-2">Connexion</a>
+    </p>
+</div>
+{% endblock %}

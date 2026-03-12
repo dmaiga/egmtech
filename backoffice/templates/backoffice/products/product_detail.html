@@ -1,0 +1,60 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="p-6 max-w-5xl mx-auto">
+    <div class="text-sm breadcrumbs mb-4">
+        <ul>
+            <li><a href="{% url 'bo_product_list' %}">Catalogue</a></li>
+            <li>Détails produit</li>
+        </ul>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="card bg-base-100 shadow-xl">
+            <figure class="px-4 pt-4">
+                <img src="{{ product.image.url }}" class="rounded-xl object-contain h-64" />
+            </figure>
+            <div class="card-body items-center text-center">
+                <h2 class="card-title">{{ product.brand }}</h2>
+                {% if product.datasheet %}
+                <a href="{{ product.datasheet.url }}" class="btn btn-outline btn-sm w-full" target="_blank">
+                    Télécharger la Datasheet (PDF)
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-6">
+            <div class="bg-base-100 p-6 rounded-box shadow">
+                <h1 class="text-4xl font-black mb-2">{{ product.name }}</h1>
+                <p class="text-gray-500 mb-4">{{ product.description }}</p>
+                
+                <div class="stats shadow w-full">
+                    <div class="stat">
+                        <div class="stat-title">Prix actuel</div>
+                        <div class="stat-value text-primary text-2xl">{{ product.price }} FCFA</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-title">En Stock</div>
+                        <div class="stat-value text-2xl">{{ product.stock }} unités</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-base-100 p-6 rounded-box shadow">
+                <h3 class="font-bold text-lg mb-4 border-b pb-2">Fiche Technique</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    {% for spec in product.specs.all %}
+                    <div class="flex justify-between border-b border-base-200 py-2">
+                        <span class="font-medium text-gray-400">{{ spec.label }}</span>
+                        <span class="font-bold">{{ spec.value }}</span>
+                    </div>
+                    {% empty %}
+                    <p class="text-sm italic">Aucune spécification ajoutée.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

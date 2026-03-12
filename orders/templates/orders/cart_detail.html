@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Mon Panier | EGM Technologies{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-10">
+    
+    <div class="flex items-center gap-4 mb-10">
+        <h1 class="text-3xl md:text-4xl font-black text-slate-900 uppercase tracking-tighter italic">
+            Votre <span class="text-egmblue">Panier</span>
+        </h1>
+        <div class="h-1 flex-grow bg-slate-100 rounded-full"></div>
+    </div>
+{% if cart|length > 0 %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-4">
+                {% for item in cart %}
+                <div class="card bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-4 md:p-6 flex items-center gap-4 md:gap-6">
+                        <div class="w-20 h-20 md:w-24 md:h-24 bg-slate-50 rounded-2xl border flex-none flex items-center justify-center p-2">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" class="max-h-full object-contain">
+                            {% else %}
+                                <i class="fa-solid fa-box text-slate-200 text-2xl"></i>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex-grow">
+                            <h3 class="font-black text-slate-800 uppercase tracking-tighter leading-tight text-sm md:text-base">
+                                {{ item.product.name }}
+                            </h3>
+                            <p class="text-xs text-slate-400 font-bold mb-2 italic">{{ item.product.category.name }}</p>
+                            
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs font-bold bg-slate-100 px-2 py-1 rounded text-slate-600">
+                                    Qté: {{ item.quantity }}
+                                </span>
+                                <span class="text-sm font-black text-egmblue">
+                                    {{ item.price|floatformat:0 }} <small class="text-[10px]">FCFA</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-end gap-4">
+                            <a href="{% url 'cart_remove' item.product.id %}" class="btn btn-circle btn-xs btn-ghost text-slate-300 hover:text-egmred hover:bg-red-50">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                            </a>
+                            <p class="font-black text-slate-900 hidden md:block">
+                                {{ item.total_price|floatformat:0 }} <small class="text-[10px]">FCFA</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="card bg-slate-900 text-white rounded-[32px] p-8 sticky top-24 shadow-xl shadow-blue-900/20">
+                    <h2 class="text-xl font-black uppercase tracking-widest border-b border-slate-800 pb-4 mb-6">Résumé</h2>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between text-slate-400 font-bold uppercase text-xs">
+                            <span>Sous-total</span>
+                            <span>{{ cart.get_total_price|floatformat:0 }} FCFA</span>
+                        </div>
+                        <div class="flex justify-between text-slate-400 font-bold uppercase text-xs">
+                            <span>Livraison (Bamako)</span>
+                            <span class="text-success italic">Gratuite</span>
+                        </div>
+                        <div class="divider before:bg-slate-800 after:bg-slate-800"></div>
+                        <div class="flex justify-between items-end">
+                            <span class="font-black uppercase tracking-tighter">Total</span>
+                            <span class="text-2xl font-black text-egmred">{{ cart.get_total_price|floatformat:0 }} <small class="text-xs">FCFA</small></span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'checkout' %}" class="btn bg-white hover:bg-egmred hover:text-white text-slate-900 border-none w-full rounded-2xl font-black uppercase tracking-widest py-4 h-auto shadow-lg">
+                        Finaliser l'achat
+                    </a>
+
+                    <p class="text-[10px] text-slate-500 text-center mt-6 italic font-medium">
+                        Paiement sécurisé via Mobile Money ou à la livraison.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    {% else %}
+        <div class="text-center py-16 md:py-24 bg-white rounded-[40px] border-2 border-dashed border-slate-100 px-6">
+            <div class="w-24 h-24 md:w-32 md:h-32 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 md:h-16 md:w-16 text-slate-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+            </div>
+            
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800 uppercase tracking-tighter mb-4 italic">
+                Votre panier est <span class="text-egmred">vide</span>
+            </h2>
+            
+            <p class="text-slate-400 font-medium max-w-sm mx-auto mb-10">
+                On dirait que vous n'avez pas encore sélectionné de matériel pour votre projet. Explorez nos solutions de pointe.
+            </p>
+
+            <a href="{% url 'product_list' %}" class="btn bg-egmblue hover:bg-slate-800 text-white border-none rounded-2xl px-12 h-14 font-black uppercase tracking-widest shadow-xl shadow-blue-900/20">
+                Explorer le catalogue
+            </a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

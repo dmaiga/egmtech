@@ -1,0 +1,50 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Supprimer produit{% endblock %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto mt-10">
+
+    <div class="card bg-base-100 shadow-xl border border-error">
+        <div class="card-body">
+
+            <h2 class="card-title text-error">
+                Confirmation de suppression
+            </h2>
+
+            <p class="mt-4">
+                Vous êtes sur le point de supprimer le produit :
+            </p>
+
+            <div class="bg-base-200 p-4 rounded-lg mt-4">
+                <p><strong>Nom :</strong> {{ product.name }}</p>
+                <p><strong>Catégorie :</strong> {{ product.category.name }}</p>
+                <p><strong>Prix :</strong> {{ product.price }} FCFA</p>
+            </div>
+
+            <p class="text-sm text-gray-500 mt-4">
+                Cette action est irréversible.
+            </p>
+
+            <div class="card-actions justify-end mt-6">
+
+                <a href="{% url 'bo_product_list' %}" class="btn btn-ghost">
+                    Annuler
+                </a>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-error">
+                        Supprimer définitivement
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

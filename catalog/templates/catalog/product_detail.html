@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} | EGM Technologies{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8">
+    
+    <nav class="hidden sm:block text-sm breadcrumbs mb-6 text-gray-400 uppercase tracking-widest font-bold">
+        <ul>
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'product_list' %}">Catalogue</a></li>
+            <li class="text-egmblue">{{ product.category.name }}</li>
+        </ul>
+    </nav>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12">
+        <div class="bg-white rounded-3xl border border-gray-100 p-6 md:p-8 flex items-center justify-center shadow-sm relative overflow-hidden">
+            {% if product.promo_active %}
+                <div class="absolute top-4 left-4 badge badge-error text-white font-black p-4 z-10 animate-bounce">-{{ product.promo_percent }}%</div>
+            {% endif %}
+            
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-h-[300px] md:max-h-[450px] w-full object-contain hover:scale-105 transition-transform duration-500">
+            {% else %}
+                <div class="text-gray-100 text-6xl font-black italic">EGM TECH</div>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-col justify-center">
+            <span class="text-egmred font-black uppercase tracking-[0.2em] text-[10px] md:text-xs mb-2 text-center md:text-left">{{ product.brand|default:"Equipement Professionnel" }}</span>
+            <h1 class="text-2xl md:text-5xl font-black text-gray-900 leading-tight mb-4 text-center md:text-left uppercase tracking-tighter">{{ product.name }}</h1>
+            
+            <div class="flex flex-wrap items-baseline justify-center md:justify-start gap-3 mb-8">
+                {% if product.promo_active %}
+                    <span class="text-3xl md:text-5xl font-black text-egmblue">{{ product.get_promo_price|floatformat:0 }} <small class="text-xs font-bold">FCFA</small></span>
+                    <span class="text-lg md:text-xl line-through text-gray-300">{{ product.price|floatformat:0 }} FCFA</span>
+                {% else %}
+                    <span class="text-3xl md:text-5xl font-black text-gray-800">{{ product.price|floatformat:0 }} <small class="text-xs font-bold">FCFA</small></span>
+                {% endif %}
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center justify-between bg-gray-50 rounded-2xl p-4 mb-8 gap-4 border border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full {% if product.stock > 0 %}bg-green-400{% else %}bg-orange-400{% endif %} opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 {% if product.stock > 0 %}bg-green-500{% else %}bg-orange-500{% endif %}"></span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-gray-400 uppercase leading-none mb-1">Disponibilité</p>
+                        <p class="text-sm font-bold text-gray-800 uppercase">
+                            {% if product.stock > 0 %}{{ product.stock }} unités en stock{% else %}Sur commande{% endif %}
+                        </p>
+                    </div>
+                </div>
+                
+                {% if product.datasheet %}
+                <a href="{{ product.datasheet.url }}" class="btn btn-sm btn-ghost text-egmblue gap-2 normal-case" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
+                    PDF Technique
+                </a>
+                {% endif %}
+            </div>
+
+            <div class="space-y-4">
+                {% if product.stock > 0 %}
+                <form action="{% url 'cart_add' product.id %}" method="post" class="flex flex-col gap-4">
+                    {% csrf_token %}
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="form-control">
+                            <label class="label pt-0"><span class="label-text-alt font-black text-gray-400 uppercase">Quantité</span></label>
+                            <div class="flex items-center border-2 border-gray-200 rounded-xl bg-white h-14">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="px-4 text-xl font-bold hover:text-egmred">-</button>
+                                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
+                                       class="w-12 text-center font-black text-lg bg-transparent border-none focus:ring-0">
+                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="px-4 text-xl font-bold hover:text-egmred">+</button>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-lg bg-egmblue hover:bg-slate-900 text-white border-none flex-grow h-14 rounded-xl shadow-lg shadow-blue-900/20">
+                            Ajouter au panier
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+                
+                <div class="grid grid-cols-1 gap-3">
+                    <a href="{% url 'request_quote' %}" class="btn btn-lg btn-outline border-gray-300 text-gray-700 hover:bg-slate-100 rounded-xl h-14">
+                        Demander un devis pro
+                    </a>
+                </div>
+                
+                <div class="flex items-center justify-center gap-4 mt-6 py-4 border-t border-dashed border-gray-200">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Orange-Money-Logo.svg/512px-Orange-Money-Logo.svg.png" class="h-6 grayscale opacity-50" alt="Orange Money">
+                    <p class="text-[9px] text-gray-400 uppercase font-black tracking-widest text-center">Cash ou Mobile Money à la livraison</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="border-t border-gray-100 pt-10 mb-16">
+        <div class="inline-block border-b-4 border-egmblue pb-2 mb-8">
+            <h2 class="text-xl font-black uppercase tracking-tighter italic text-slate-800">Spécifications techniques</h2>
+        </div>
+        <div class="prose max-w-none text-gray-600 leading-relaxed">
+            {{ product.description|linebreaks }}
+        </div>
+    </div>
+
+    {% if similar_products %}
+    <section class="pt-10 border-t border-gray-100">
+        <h2 class="text-xl md:text-2xl font-black text-gray-900 uppercase tracking-tighter mb-8 italic">Solutions similaires</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {% for sim in similar_products %}
+            <a href="{% url 'product_detail' sim.slug %}" class="group bg-white border border-gray-100 rounded-2xl p-4 hover:shadow-xl transition-all">
+                <div class="h-28 md:h-40 flex items-center justify-center mb-4 overflow-hidden bg-gray-50 rounded-xl p-2">
+                    {% if sim.image %}
+                        <img src="{{ sim.image.url }}" class="h-full object-contain group-hover:scale-110 transition-transform duration-500">
+                    {% endif %}
+                </div>
+                <h3 class="font-bold text-[10px] md:text-xs text-center line-clamp-2 h-8 uppercase tracking-tighter text-gray-800">{{ sim.name }}</h3>
+                <p class="text-center text-egmblue font-black mt-2 text-sm">{{ sim.price|floatformat:0 }} <small class="text-[9px]">FCFA</small></p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+</div>
+
+<style>
+    /* Supprimer les flèches par défaut de l'input number */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+{% endblock %}

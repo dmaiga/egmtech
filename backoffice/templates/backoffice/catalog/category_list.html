@@ -1,0 +1,77 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Gestion des catégories</h1>
+
+    <a href="{% url 'bo_category_create' %}" class="btn btn-primary">
+        + Nouvelle catégorie
+    </a>
+</div>
+
+<div class="card bg-base-100 shadow-xl">
+    <div class="card-body p-0">
+
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    
+                    <th>Produits liés</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td class="font-semibold">{{ category.name }}</td>
+                    
+                    <td>{{ category.products.count }}</td>
+                    <td>
+                        {% if category.is_active %}
+                            <span class="badge badge-success">Active</span>
+                        {% else %}
+                            <span class="badge badge-error">Inactive</span>
+                        {% endif %}
+                    </td>
+                    <td class="space-x-2">
+
+                        <a href="{% url 'bo_category_update' category.pk %}"
+                           class="btn btn-sm btn-outline btn-primary">
+                            Modifier
+                        </a>
+
+                        <a href="{% url 'bo_category_toggle' category.pk %}"
+                           class="btn btn-sm btn-outline btn-warning">
+                            {% if category.is_active %}
+                                Désactiver
+                            {% else %}
+                                Activer
+                            {% endif %}
+                        </a>
+
+    
+
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-6">
+                        Aucune catégorie enregistrée.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

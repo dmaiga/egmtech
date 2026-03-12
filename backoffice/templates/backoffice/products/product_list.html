@@ -1,0 +1,71 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="p-6">
+    <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">Inventaire Équipements</h1>
+        <a href="{% url 'bo_product_create' %}" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+            Ajouter un produit
+        </a>
+    </div>
+
+    <div class="overflow-x-auto bg-base-100 rounded-box shadow">
+        <table class="table table-zebra w-full">
+            <thead>
+                <tr class="bg-base-200">
+                    <th>Produit</th>
+                    <th>Marque</th>
+                    <th>Catégorie</th>
+                    <th>Prix (FCFA)</th>
+                    <th>Stock</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>
+                        <div class="flex items-center space-x-3">
+                            <div class="avatar">
+                                <div class="mask mask-squircle w-12 h-12">
+                                    <img src="{{ product.image.url|default:'/static/img/no-image.png' }}" alt="{{ product.name }}" />
+                                </div>
+                            </div>
+                            <div class="font-bold">{{ product.name }}</div>
+                        </div>
+                    </td>
+                    <td><span class="badge badge-ghost">{{ product.brand }}</span></td>
+                    <td>{{ product.category.name }}</td>
+                    <td class="font-mono">{{ product.price }}</td>
+                    <td>
+                        {% if product.stock < 5 %}
+                            <span class="text-error font-bold">{{ product.stock }} (Critique)</span>
+                        {% else %}
+                            {{ product.stock }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if product.is_active %}
+                            <div class="badge badge-success gap-2">En ligne</div>
+                        {% else %}
+                            <div class="badge badge-ghost gap-2">Hors ligne</div>
+                        {% endif %}
+                    </td>
+<td>
+    <a href="{% url 'bo_product_update' product.pk %}" class="btn btn-sm btn-primary">Edit</a>
+
+    <a href="{% url 'bo_product_toggle' product.pk %}" class="btn btn-sm btn-warning">
+        {% if product.is_active %}Désactiver{% else %}Activer{% endif %}
+    </a>
+
+    <a href="{% url 'bo_product_delete' product.pk %}" class="btn btn-sm btn-error">Supprimer</a>
+</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

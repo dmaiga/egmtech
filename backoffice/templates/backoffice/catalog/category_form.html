@@ -1,0 +1,60 @@
+{% extends "base_admin.html" %}
+
+{% block title %}
+    {% if is_update %}Modifier Catégorie{% else %}Nouvelle Catégorie{% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto mt-10">
+
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+
+            <h2 class="card-title mb-6">
+                {% if is_update %}
+                    Modifier la catégorie
+                {% else %}
+                    Ajouter une nouvelle catégorie
+                {% endif %}
+            </h2>
+
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">Nom de la catégorie</span>
+                    </label>
+                    {{ form.name }}
+                </div>
+
+                <div class="form-control mt-4">
+                    <label class="cursor-pointer label">
+                        <span class="label-text">Activer la catégorie</span>
+                        {{ form.is_active }}
+                    </label>
+                </div>
+
+                <div class="card-actions justify-end mt-6">
+                    <a href="{% url 'bo_category_list' %}" class="btn btn-ghost">
+                        Annuler
+                    </a>
+
+                    <button type="submit" class="btn btn-primary">
+                        {% if is_update %}
+                            Mettre à jour
+                        {% else %}
+                            Enregistrer
+                        {% endif %}
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
