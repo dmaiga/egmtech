@@ -1,0 +1,53 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-10 card bg-base-100 shadow-xl p-6">
+    <h2 class="text-xl font-bold mb-4 text-primary">🛒 Nouvelle Vente Directe</h2>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="alert alert-error shadow-sm mb-4">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <div>
+            <label class="label font-semibold">Produit vendu</label>
+            {{ form.product_direct }}
+            {% if form.product_direct.errors %}<span class="text-error text-sm">{{ form.product_direct.errors }}</span>{% endif %}
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label class="label font-semibold">Quantité</label>
+                {{ form.quantity_direct }}
+            </div>
+            <div>
+                <label class="label font-semibold">Montant Total</label>
+                {{ form.amount }}
+            </div>
+        </div>
+
+        <hr class="border-base-300 my-2" />
+
+        <div>
+            <label class="label font-semibold">Méthode de paiement</label>
+            {{ form.method }}
+        </div>
+
+        <div>
+            <label class="label font-semibold">Référence / N° Reçu</label>
+            {{ form.reference }}
+        </div>
+
+        <div class="pt-4">
+            <button type="submit" class="btn btn-primary w-full shadow-md">
+                Confirmer la vente et déduire le stock
+            </button>
+            <a href="{% url 'payment_list' %}" class="btn btn-ghost w-full mt-2">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

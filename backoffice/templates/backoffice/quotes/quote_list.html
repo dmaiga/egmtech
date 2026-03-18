@@ -1,0 +1,118 @@
+{% extends "base_admin.html" %}
+
+{% block section_title %}Demandes de Devis{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <h1 class="text-3xl font-black text-slate-800 italic uppercase tracking-tighter">Gestion des Devis</h1>
+    
+    <form method="get" class="flex items-center gap-2 w-full md:w-auto">
+        <div class="relative w-full md:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input type="text" name="search" value="{{ search_query }}" placeholder="Rechercher ID, Client, Sujet..." 
+                   class="input input-sm input-bordered w-full pl-10 rounded-xl font-bold text-xs h-10">
+        </div>
+        <button type="submit" class="btn btn-sm bg-slate-800 text-white rounded-xl uppercase italic font-black text-[10px] h-10 px-6">
+            Filtrer
+        </button>
+        {% if search_query %}
+            <a href="{% url 'bo_quote_list' %}" class="text-red-500 hover:text-red-700 transition-colors">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="card bg-white shadow-xl rounded-[2rem] border border-slate-100 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="table w-full">
+            <thead>
+                <tr class="text-slate-400 uppercase text-[10px] tracking-widest border-b border-slate-50 bg-slate-50/50">
+                    <th class="pl-8 py-5">ID</th>
+                    <th>Client / Coordonnées</th>
+                    <th>Objet du Devis</th>
+                    <th>Statut</th>
+                    <th>Date de réception</th>
+                    <th class="text-right pr-8">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for quote in quotes %}
+                <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-none">
+                    <td class="pl-8">
+                        <span class="font-black text-slate-400 italic">#{{ quote.id }}</span>
+                    </td>
+                    <td>
+                        <div class="flex flex-col">
+                            <span class="font-black text-slate-800 italic uppercase text-xs">{{ quote.client.username }}</span>
+                            <span class="text-[10px] font-bold text-slate-400 leading-tight">
+                                <i class="fa-solid fa-envelope mr-1 opacity-50"></i>{{ quote.client.email|default:"N/A" }}
+                            </span>
+                            <span class="text-[10px] font-bold text-slate-400">
+                                <i class="fa-solid fa-phone mr-1 opacity-50"></i>{{ quote.client.phone|default:"N/A" }}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="max-w-xs">
+                        <div class="truncate font-bold text-slate-600 text-xs italic">{{ quote.subject }}</div>
+                    </td>
+                    <td>
+                        {% if quote.status == 'EN_ATTENTE' %}
+                            <div class="badge badge-warning gap-2 text-[9px] font-black uppercase text-white px-3 py-3 italic">
+                                En attente
+                            </div>
+                        {% elif quote.status == 'PROFORMA_ENVOYEE' %}
+                            <div class="badge badge-info gap-2 text-[9px] font-black uppercase text-white px-3 py-3 italic">
+                                Proforma envoyée
+                            </div>
+                        {% else %}
+                            <div class="badge badge-success gap-2 text-[9px] font-black uppercase text-white px-3 py-3 italic">
+                                Clôturée
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="text-[10px] font-black text-slate-500 uppercase">
+                            {{ quote.created_at|date:"d M Y" }}
+                            <span class="block opacity-40 text-[8px]">{{ quote.created_at|date:"H:i" }}</span>
+                        </div>
+                    </td>
+                    <td class="text-right pr-8">
+                        <a href="{% url 'bo_quote_detail' quote.pk %}" class="btn btn-sm bg-slate-900 text-white hover:bg-black border-none rounded-xl px-5 font-black italic text-[10px] uppercase">
+                            Gérer le dossier
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="py-20 text-center">
+                        <i class="fa-solid fa-file-circle-question text-4xl text-slate-200 mb-4 block"></i>
+                        <span class="font-black italic text-slate-400 uppercase text-xs">Aucun devis trouvé pour cette recherche</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if quotes.has_other_pages %}
+    <div class="p-8 bg-slate-50 border-t border-slate-100 flex justify-center">
+        <div class="join">
+            {% if quotes.has_previous %}
+                <a href="?page={{ quotes.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                   class="join-item btn btn-sm bg-white font-black italic uppercase text-[10px]">Précédent</a>
+            {% endif %}
+
+            <button class="join-item btn btn-sm bg-white font-black text-[10px] no-animation">
+                Page {{ quotes.number }} / {{ quotes.paginator.num_pages }}
+            </button>
+
+            {% if quotes.has_next %}
+                <a href="?page={{ quotes.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}" 
+                   class="join-item btn btn-sm bg-white font-black italic uppercase text-[10px]">Suivant</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

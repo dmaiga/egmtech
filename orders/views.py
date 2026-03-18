@@ -84,26 +84,24 @@ def request_quote(request):
 def order_success(request):
     return render(request, "orders/order_success.html")
 
+from orders.forms import CartAddProductForm 
 
-@login_required
 def cart_add(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)
+    form = CartAddProductForm(request.POST)
     
-    try:
-        quantity = int(request.POST.get('quantity', 1))
-    except ValueError:
-        quantity = 1
-        
-    cart.add(product=product, quantity=quantity, override_quantity=False)
+    if form.is_valid():
+        cd = form.cleaned_data
+        cart.add(
+            product=product,
+            quantity=cd['quantity'],
+            override_quantity=cd['override']
+        )
+        messages.success(request, f"{product.name} ajouté au panier !")
     
-    # Message de confirmation
-    messages.success(request, f"{product.name} ajouté au panier.")
-    
-    # Redirige vers la page précédente (ou le catalogue par défaut)
-    return redirect(request.META.get('HTTP_REFERER', 'product_list'))
+    return redirect('cart_detail')
 
-@login_required
 def cart_remove(request, product_id):
     cart = Cart(request)
     product = get_object_or_404(Product, id=product_id)

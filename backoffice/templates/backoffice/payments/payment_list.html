@@ -1,0 +1,149 @@
+{% extends "base_admin.html" %}
+{%load format_fcfa%}
+{% block content %}
+<div class="max-w-7xl mx-auto py-8 px-4">
+    <div class="mb-8">
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Trésorerie & Performance</div>
+        <h1 class="text-4xl font-black text-slate-800 italic uppercase tracking-tighter mb-6">Journal des Flux</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900 p-6 rounded-[2rem] text-white shadow-xl">
+                <div class="text-[9px] font-black uppercase opacity-50 italic">Chiffre d'Affaires</div>
+                <div class="text-2xl font-black italic">{{ stats.total_ca|fcfa }} <small class="text-[10px]">FCFA</small></div>
+            </div>
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-md">
+                <div class="text-[9px] font-black uppercase text-slate-400 italic">Nombre de Ventes</div>
+                <div class="text-2xl font-black text-slate-800 italic">{{ stats.count }}</div>
+            </div>
+            <div class="bg-green-50 p-6 rounded-[2rem] border border-green-100 shadow-md">
+                <div class="text-[9px] font-black uppercase text-green-600 italic">Total Espèces</div>
+                <div class="text-2xl font-black text-green-700 italic">{{ stats.cash_total|fcfa }}</div>
+            </div>
+            <div class="bg-blue-50 p-6 rounded-[2rem] border border-blue-100 shadow-md">
+                <div class="text-[9px] font-black uppercase text-blue-600 italic">Total Mobile Money</div>
+                <div class="text-2xl font-black text-blue-700 italic">{{ stats.momo_total|fcfa }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <form method="get" class="flex flex-wrap items-center gap-3">
+            <input type="text" name="search" value="{{ search_query|default:'' }}" placeholder="Rechercher ID, Produit, Client..." 
+                   class="input input-sm input-bordered rounded-xl font-bold text-xs w-64">
+            
+            <select name="period" class="select select-sm select-bordered rounded-xl font-bold text-xs" onchange="this.form.submit()">
+                <option value="">Toute la période</option>
+                <option value="today" {% if current_period == 'today' %}selected{% endif %}>Aujourd'hui</option>
+                <option value="week" {% if current_period == 'week' %}selected{% endif %}>7 derniers jours</option>
+                <option value="month" {% if current_period == 'month' %}selected{% endif %}>Ce mois-ci</option>
+            </select>
+            
+            <button type="submit" class="btn btn-sm bg-slate-800 text-white rounded-xl uppercase italic font-black text-[10px]">Filtrer</button>
+            {% if search_query or current_period %}
+                <a href="{% url 'payment_list' %}" class="text-[10px] font-black uppercase text-red-500 italic ml-2">Réinitialiser</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <div class="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+    <table class="table w-full">
+        <thead class="bg-slate-50/50">
+            <tr class="text-[10px] uppercase font-black text-slate-400">
+                <th class="pl-8">ID & Date</th>
+                <th>Produit / Détail</th>
+                <th>Origine</th>
+                <th class="text-right">Montant</th>
+                <th class="text-right pr-8">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in payments %}
+            <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-50 {% if p.is_cancelled %}bg-red-50/30 opacity-60 grayscale{% endif %}">
+                <td class="pl-8 py-4">
+                    <div class="flex items-center gap-2">
+                        {% if p.is_cancelled %}
+                            <i class="fa-solid fa-ban text-red-500 text-[10px]"></i>
+                        {% endif %}
+                        <div class="font-black {% if p.is_cancelled %}text-red-600 line-through{% else %}text-slate-800{% endif %} italic">#{{ p.id }}</div>
+                    </div>
+                    <div class="text-[9px] text-slate-400 font-bold uppercase">{{ p.created_at|date:"d/m/y H:i" }}</div>
+                </td>
+                
+                <td>
+                    <div class="flex flex-col">
+                        {% if p.payment_type == 'DIRECT' and p.product_direct %}
+                            <span class="font-black {% if p.is_cancelled %}text-slate-400{% else %}text-slate-700{% endif %} italic uppercase text-xs">
+                                {{ p.product_direct.name }}
+                            </span>
+                            <span class="text-[10px] font-bold text-slate-400">Quantité : x{{ p.quantity_direct }}</span>
+
+                        {% elif p.order %}
+                            <span class="font-black {% if p.is_cancelled %}text-slate-400{% else %}text-slate-700{% endif %} italic uppercase text-xs">
+                                {% for item in p.order.items.all %}
+                                    {{ item.product.name }}{% if not forloop.last %}, {% endif %}
+                                {% empty %}
+                                    Commande sans articles
+                                {% endfor %}
+                            </span>
+                            <span class="text-[10px] font-bold text-slate-400 italic">
+                                Panier de {{ p.order.client.username }}
+                            </span>
+
+                        {% elif p.quote %}
+                            <span class="font-black {% if p.is_cancelled %}text-slate-400{% else %}text-slate-700{% endif %} italic uppercase text-xs">
+                                {{ p.quote.subject }}
+                            </span>
+                            <span class="text-[10px] font-bold text-slate-400">
+                                Acompte / Client : {{ p.quote.client.username }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </td>
+
+                <td>
+                    {% if p.is_cancelled %}
+                        <span class="badge badge-sm font-black text-[9px] uppercase italic bg-red-100 text-red-600 border-none">
+                            ANNULÉ
+                        </span>
+                    {% else %}
+                        <span class="badge badge-sm font-black text-[9px] uppercase italic 
+                            {% if p.payment_type == 'DIRECT' %}badge-ghost{% elif p.payment_type == 'ORDER' %}badge-info text-white{% else %}badge-warning text-white{% endif %}">
+                            {{ p.get_payment_type_display }}
+                        </span>
+                    {% endif %}
+                </td>
+
+                <td class="text-right">
+                    <div class="text-lg font-black {% if p.is_cancelled %}text-slate-400 line-through{% else %}text-slate-900{% endif %} italic">
+                        {{ p.amount|fcfa }}
+                    </div>
+                    <div class="text-[8px] font-black uppercase text-slate-400">{{ p.get_method_display }}</div>
+                </td>
+
+                <td class="text-right pr-8">
+                    <a href="{% url 'payment_detail' p.id %}" class="btn btn-ghost btn-xs text-slate-400 hover:text-slate-900 font-black italic uppercase text-[9px]">
+                        {% if p.is_cancelled %}Voir motif{% else %}Détails{% endif %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+        {% if payments.has_other_pages %}
+        <div class="p-6 bg-slate-50 flex justify-center">
+            <div class="btn-group">
+                {% if payments.has_previous %}
+                    <a href="?page={{ payments.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_period %}&period={{ current_period }}{% endif %}" class="btn btn-sm btn-ghost font-black italic uppercase text-[10px]">Précédent</a>
+                {% endif %}
+                <button class="btn btn-sm btn-ghost no-animation font-black text-[10px]">Page {{ payments.number }} sur {{ payments.paginator.num_pages }}</button>
+                {% if payments.has_next %}
+                    <a href="?page={{ payments.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if current_period %}&period={{ current_period }}{% endif %}" class="btn btn-sm btn-ghost font-black italic uppercase text-[10px]">Suivant</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

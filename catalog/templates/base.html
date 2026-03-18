@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{% block title %}EGM Technologies{% endblock %}</title>
+    <title>{% block title %}EGM Techn{% endblock %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
 <body class="bg-slate-50 flex flex-col min-h-screen text-slate-900 font-sans">
 
     <div class="bg-slate900 text-white py-2 px-4 text-[10px] md:text-xs font-bold uppercase tracking-widest text-center">
-        <span class="opacity-80">📍 Bamako, Mali —</span> Service Client : <a href="tel:+22390423937" class="text-egmred">+223 90 42 39 37</a>
+        <span class="opacity-80">📍 Bamako, Mali —</span> Service Client : <a href="tel:+22373306595" class="text-egmred">+223 73306595 / 74893373</a>
     </div>
 
     <header class="sticky top-0 z-[100] border-b border-slate-200 glass-nav">
@@ -52,22 +52,12 @@
             <div class="flex-none hidden lg:block mr-6">
                 <ul class="menu menu-horizontal px-1 font-bold text-sm uppercase tracking-wider">
                     <li><a href="{% url 'product_list' %}" class="hover:text-egmblue">Catalogue</a></li>
-                    <li><a href="{% url 'request_quote' %}" class="hover:text-egmblue">Devis</a></li>
+                    <li><a href="{% url 'client_quotes' %}" class="hover:text-egmblue">Devis</a></li>
                 </ul>
             </div>
 
             <div class="flex-none gap-1">
-                <div class="dropdown dropdown-end">
-                    <button class="btn btn-ghost btn-circle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button>
-                    <div class="dropdown-content bg-white p-4 shadow-2xl border rounded-2xl w-[90vw] md:w-80 mt-4">
-                        <form action="{% url 'product_list' %}" method="get">
-                            <input type="text" name="q" placeholder="Rechercher un équipement..." class="input input-bordered w-full focus:border-egmblue" />
-                        </form>
-                    </div>
-                </div>
-
+                
                 <a href="{% url 'cart_detail' %}" class="btn btn-ghost btn-circle">
                     <div class="indicator">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -77,23 +67,53 @@
                     </div>
                 </a>
 
-                {% if user.is_authenticated %}
-                <div class="dropdown dropdown-end ml-2">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar border-2 border-egmblue">
-                        <div class="w-10 rounded-full flex items-center justify-center bg-egmblue text-white">
-                            <span>{{ user.username|slice:":1"|upper }}</span>
-                        </div>
-                    </div>
-                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-52 border border-slate-100 font-medium">
-                        <li class="menu-title italic text-xs">Bonjour, {{ user.username }}</li>
-                        <li><a href="{% url 'dashboard_client' %}">Mon Dashboard</a></li>
-                        <li><a href="{% url 'client_orders' %}">Mes commandes</a></li>
-                        <li><a href="{% url 'logout' %}" class="text-egmred">Déconnexion</a></li>
-                    </ul>
-                </div>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-sm btn-outline border-slate-300 ml-2 hidden md:flex">Connexion</a>
-                {% endif %}
+{% if user.is_authenticated %}
+<div class="dropdown dropdown-end ml-2">
+    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar border-2 {% if user.role == 'ADMIN' %}border-egmred{% else %}border-egmblue{% endif %} shadow-sm">
+        <div class="w-10 rounded-full flex items-center justify-center {% if user.role == 'ADMIN' %}bg-slate-900{% else %}bg-egmblue{% endif %} text-white overflow-hidden">
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" class="object-cover w-full h-full" />
+            {% else %}
+                <span class="font-black italic text-xs">{{ user.username|slice:":1"|upper }}</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-60 border border-slate-100 font-medium">
+        <li class="menu-title italic text-[10px] uppercase font-black text-slate-400 border-b border-slate-50 mb-2 pb-2">
+            Connecté : {{ user.username }} 
+            <span class="block text-[8px] tracking-widest {% if user.role == 'ADMIN' %}text-egmred{% else %}text-egmblue{% endif %}">
+                {% if user.role == 'ADMIN' %}ACCÈS ADMINISTRATEUR{% else %}ESPACE CLIENT{% endif %}
+            </span>
+        </li>
+
+        {% if user.role == "ADMIN" %}
+            <li class="mb-1">
+                <a href="{% url 'dashboard_home' %}" class="bg-slate-900 text-white hover:bg-slate-800 py-3 rounded-xl font-black italic uppercase text-[10px] flex justify-between">
+                    Administration EGM <i class="fa-solid fa-gauge-high"></i>
+                </a>
+            </li>
+            <div class="divider my-1 opacity-50"></div>
+        {% endif %}
+
+        <li><a href="{% url 'client_profile' %}" class="py-2.5"><i class="fa-solid fa-user-circle opacity-50"></i> Mon Profil</a></li>
+        <li><a href="{% url 'client_orders' %}" class="py-2.5"><i class="fa-solid fa-box-open opacity-50"></i> Mes commandes</a></li>
+        
+        <li>
+        <a href="{% url 'password_change' %}" class="flex items-center gap-3 py-3 rounded-xl hover:bg-slate-50 transition-all group">
+            <i class="fa-solid fa-shield-halved text-egmred opacity-70 group-hover:scale-110 transition-transform"></i>
+            <span class="text-xs font-black uppercase italic tracking-tighter text-slate-700"> Password</span>
+        </a>
+    </li>
+        <div class="divider my-1 opacity-50"></div>
+        
+        <li><a href="{% url 'logout' %}" class="text-egmred py-2.5 font-bold"><i class="fa-solid fa-power-off"></i> Déconnexion</a></li>
+    
+    </ul>
+</div>
+{% else %}
+    <a href="{% url 'login' %}" class="btn btn-sm btn-outline border-slate-300 ml-2 hidden md:flex rounded-xl font-black italic uppercase text-[10px]">Connexion</a>
+{% endif %}
             </div>
         </div>
     </header>

@@ -1,61 +1,105 @@
 {% extends "base_admin.html" %}
-
-{% block title %}Dashboard{% endblock %}
+{%load format_fcfa%}
+{% block section_title %}Tableau de Bord Stratégique{% endblock %}
 
 {% block content %}
-
-<h1 class="text-3xl font-bold mb-8">Tableau de bord</h1>
-
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- COMMANDES -->
-    <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-            <h2 class="card-title">Commandes</h2>
-
-            <p>Total : <strong>{{ total_orders }}</strong></p>
-            <p>En attente : <strong>{{ pending_orders }}</strong></p>
-            <p>Confirmées : <strong>{{ confirmed_orders }}</strong></p>
-
-            <div class="card-actions justify-end mt-4">
-                <a href="{% url 'bo_order_list' %}" class="btn btn-primary btn-sm">
-                    Voir les commandes
-                </a>
+<div class="space-y-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="card bg-slate-900 text-white p-6 rounded-[2rem] shadow-xl border-b-4 border-egmred relative overflow-hidden">
+            <div class="relative z-10">
+                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1 italic">Chiffre d'Affaires</p>
+                <h3 class="text-3xl font-black italic tracking-tighter">{{ total_revenue|fcfa }} <small class="text-xs">FCFA</small></h3>
             </div>
+            <i class="fa-solid fa-vault absolute -right-4 -bottom-4 text-8xl opacity-10 -rotate-12"></i>
+        </div>
+
+        <div class="card bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 relative overflow-hidden">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1 italic">Commandes en attente</p>
+            <h3 class="text-3xl font-black italic tracking-tighter text-egmblue">{{ pending_orders }}</h3>
+            <div class="mt-2 flex items-center gap-2">
+                <span class="badge badge-error badge-xs"></span>
+                <span class="text-[9px] font-bold uppercase text-slate-500 italic">Action requise</span>
+            </div>
+        </div>
+
+        <div class="card bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 relative overflow-hidden">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1 italic">Catalogue Actif</p>
+            <h3 class="text-3xl font-black italic tracking-tighter text-slate-800">{{ total_products }}</h3>
+            <p class="text-[9px] font-bold text-slate-500 italic mt-2 uppercase">{{ low_stock_products }} en alerte stock</p>
+        </div>
+
+        <div class="card bg-egmblue text-white p-6 rounded-[2rem] shadow-xl relative overflow-hidden">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-200 mb-1 italic">Total Clients</p>
+            <h3 class="text-3xl font-black italic tracking-tighter">{{total_client}}</h3>
+            <i class="fa-solid fa-users absolute -right-2 -bottom-2 text-6xl opacity-20"></i>
         </div>
     </div>
 
-    <!-- PRODUITS -->
-    <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-            <h2 class="card-title">Produits</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="lg:col-span-2 space-y-4">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-black uppercase italic tracking-tighter text-slate-800">Flux Commandes Récents</h2>
+                <a href="{% url 'bo_order_list' %}" class="btn btn-ghost btn-xs font-black uppercase italic text-egmblue">Tout voir +</a>
+            </div>
+            
+            <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden">
+                <table class="table w-full">
+                    <thead class="bg-slate-50">
+                        <tr class="border-none">
+                            <th class="text-[10px] font-black uppercase italic text-slate-400">ID</th>
+                            <th class="text-[10px] font-black uppercase italic text-slate-400">Client</th>
+                            <th class="text-[10px] font-black uppercase italic text-slate-400">Statut</th>
+                            <th class="text-[10px] font-black uppercase italic text-slate-400 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr class="hover:bg-slate-50 transition-colors border-slate-50">
+                            <td class="font-black text-slate-800 italic text-xs">#{{ order.id }}</td>
+                            <td>
+<div class="font-bold text-xs uppercase">{{ order.client.get_full_name|default:order.client.username }}</div>
+                                <div class="text-[9px] text-slate-400">{{ order.created_at|date:"d/m H:i" }}</div>
+                            </td>
+                            <td>
+                                <span class="px-3 py-1 rounded-lg text-[9px] font-black uppercase italic 
+                                    {% if order.status == 'CONFIRMEE' %}bg-green-100 text-green-700
+                                    {% elif order.status == 'EN_ATTENTE' %}bg-orange-100 text-orange-700
+                                    {% else %}bg-slate-100 text-slate-600{% endif %}">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                            <td class="text-right font-black italic text-sm">{{ order.total_amount|fcfa }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="4" class="text-center py-8 text-xs font-bold text-slate-400 uppercase italic">Aucune commande récente</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-            <p>Total : <strong>{{ total_products }}</strong></p>
-            <p>Actifs : <strong>{{ active_products }}</strong></p>
-
-            <div class="card-actions justify-end mt-4">
-                <a href="{% url 'bo_product_list' %}" class="btn btn-primary btn-sm">
-                    Gérer les produits
-                </a>
+        <div class="space-y-4">
+            <h2 class="text-xl font-black uppercase italic tracking-tighter text-slate-800">Derniers Encaissements</h2>
+            <div class="space-y-3">
+                {% for payment in recent_payments %}
+                <div class="flex items-center gap-4 bg-white p-4 rounded-3xl border border-slate-100 shadow-sm">
+                    <div class="w-10 h-10 rounded-2xl bg-slate-900 flex items-center justify-center text-white flex-none">
+                        <i class="fa-solid fa-receipt text-xs"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <p class="text-[10px] font-black uppercase italic text-slate-800">Reçu #{{ payment.id }}</p>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase italic">{{ payment.get_method_display }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-black text-xs text-slate-900 italic">+ {{ payment.amount|fcfa }}</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-
-    <!-- CATEGORIES -->
-    <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-            <h2 class="card-title">Catégories</h2>
-
-            <p>Total : <strong>{{ total_categories }}</strong></p>
-
-            <div class="card-actions justify-end mt-4">
-                <a href="{% url 'bo_category_list' %}" class="btn btn-primary btn-sm">
-                    Gérer les catégories
-                </a>
-            </div>
-        </div>
-    </div>
-
 </div>
-
 {% endblock %}

@@ -1,33 +1,164 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="fr" data-theme="corporate">
+<html lang="fr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <title>Backoffice - {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EGM Admin | {% block title %}{% endblock %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        egmblue: "#1E3A8A",
+                        egmred: "#DC2626",
+                        adminbg: "#F8FAFC"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .nav-link-active {
+            @apply bg-egmblue text-white shadow-lg shadow-blue-900/40;
+        }
+        .nav-link-inactive {
+            @apply text-slate-400 hover:bg-slate-800 hover:text-white;
+        }
+    </style>
 </head>
-<body class="bg-base-200">
+<body class="bg-adminbg min-h-screen font-sans antialiased text-slate-900">
 
 <div class="flex min-h-screen">
 
-    <!-- SIDEBAR -->
-    <div class="w-64 bg-white shadow-lg p-6">
-        <h2 class="text-xl font-bold mb-6">EGM Admin</h2>
+    <aside class="w-72 bg-slate-900 text-white flex flex-col sticky top-0 h-screen shadow-2xl z-40">
+        <div class="p-8 border-b border-slate-800/50">
+            <div class="flex items-center gap-3">
+                <div class="bg-white p-1.5 rounded-xl flex-none shadow-inner">
+                    <img src="{% static 'images/egm_logo.png' %}" alt="EGM" class="h-6 w-auto">
+                </div>
+                <h1 class="font-black uppercase tracking-tighter text-lg leading-none">
+                    EGM <span class="text-egmred">Admin</span>
+                </h1>
+            </div>
+            <p class="text-[9px] text-slate-500 font-black uppercase tracking-[0.25em] mt-3 opacity-70 italic">Management System v3.0</p>
+        </div>
 
-        <ul class="menu">
-            <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
-            <li><a href="{% url 'bo_order_list' %}"  >Commandes</a></li>
-            <li><a href="{% url 'bo_product_list' %}">Produits</a></li>
-            <li><a href="{% url 'bo_category_list' %}">Catégories</a></li>
-        
-        </ul>
-    </div>
+        <nav class="flex-grow p-5 space-y-1 mt-2 overflow-y-auto custom-scrollbar">
+            
+            <p class="px-4 text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 mt-4">Vue d'ensemble</p>
+            
+<a href="{% url 'dashboard_home' %}" 
+   class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group relative {% if request.resolver_match.url_name == 'dashboard_home' %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+    <i class="fa-solid fa-gauge-high w-5 text-sm"></i> 
+    <span class="text-sm font-bold uppercase italic tracking-tight">Tableau de bord</span>
+</a>
 
-    <!-- MAIN CONTENT -->
-    <div class="flex-1 p-8">
-        {% block content %}{% endblock %}
-    </div>
+            <p class="px-4 text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 mt-8">Relations & Flux</p>
+            
+            <a href="{% url 'customer_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'customer' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-users-viewfinder w-5 text-sm {% if 'customer' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Annuaire Clients</span>
+            </a>
+
+            <a href="{% url 'payment_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'payment' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-wallet w-5 text-sm {% if 'payment' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Trésorerie / Paiements</span>
+            </a>
+
+            <a href="{% url 'bo_order_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'order' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-truck-fast w-5 text-sm {% if 'order' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Commandes</span>
+            </a>
+
+            <a href="{% url 'bo_quote_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'quote' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-file-invoice-dollar w-5 text-sm {% if 'quote' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Devis & Proformas</span>
+            </a>
+
+            <p class="px-4 text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 mt-8">Stock & Offres</p>
+            
+            <a href="{% url 'bo_product_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'product' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-cubes w-5 text-sm {% if 'product' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Produits</span>
+            </a>
+            
+            <a href="{% url 'bo_category_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'category' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-layer-group w-5 text-sm {% if 'categorie' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Catégories</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t border-slate-800/50 bg-slate-900/80 backdrop-blur-md">
+            <div class="flex items-center gap-3 bg-slate-800/40 p-3 rounded-2xl border border-white/5">
+                <div class="avatar online">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-egmred to-red-800 text-white flex items-center justify-center font-black shadow-lg shadow-red-900/20">
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="profile" class="object-cover" />
+                        {% else %}
+                            {{ user.username|slice:":1"|upper }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-[11px] font-black truncate uppercase tracking-tighter">{{ user.username }}</p>
+                    <a href="{% url 'logout' %}" class="text-[9px] text-slate-500 hover:text-egmred font-black uppercase transition-colors">Déconnexion <i class="fa-solid fa-power-off ml-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#F1F5F9]">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 flex items-center justify-between px-8 flex-none sticky top-0 z-30">
+            <div class="flex items-center gap-4">
+                <div class="h-8 w-1 bg-egmblue rounded-full"></div>
+                <h2 class="text-lg font-black text-slate-800 uppercase tracking-tighter italic">
+                    {% block section_title %}Backoffice{% endblock %}
+                </h2>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <p class="text-[10px] font-black text-slate-400 uppercase italic leading-none">Aujourd'hui</p>
+                    <p class="text-xs font-black text-slate-700 italic">{% now "l d F Y" %}</p>
+                </div>
+                <a href="{% url 'product_list' %}" target="_blank" class="btn btn-sm bg-slate-100 hover:bg-slate-900 hover:text-white border-none rounded-xl gap-2 text-[10px] font-black uppercase transition-all shadow-sm">
+                    <i class="fa-solid fa-external-link text-[8px]"></i> Accès Boutique
+                </a>
+            </div>
+        </header>
+
+        <section class="p-8 overflow-y-auto">
+            {% if messages %}
+                <div class="mb-8 space-y-3">
+                    {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}bg-green-500 border-green-600{% else %}bg-red-500 border-red-600{% endif %} rounded-[1.5rem] text-[11px] font-black text-white uppercase shadow-xl shadow-slate-900/10 p-4 relative overflow-hidden">
+                        <div class="relative z-10 flex items-center gap-3">
+                            <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check{% else %}fa-triangle-exclamation{% endif %} text-lg"></i>
+                            {{ message }}
+                        </div>
+                        <div class="absolute right-0 top-0 h-full w-24 bg-white/10 -skew-x-12 translate-x-12"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="animate-in fade-in slide-in-from-bottom-2 duration-500">
+                {% block content %}{% endblock %}
+            </div>
+        </section>
+    </main>
 
 </div>
 

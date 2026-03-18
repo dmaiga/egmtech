@@ -88,27 +88,46 @@ def dashboard_client(request):
 
 User = get_user_model()
 
-
 @login_required
 def client_profile(request):
+    return render(request, "accounts/clients/profile.html", {"user": request.user})
 
+@login_required
+def client_profile_edit(request):
     user = request.user
-
     if request.method == "POST":
-        form = ClientProfileForm(request.POST, instance=user)
-
+        form = ClientProfileForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect("accounts:client_profile")
-
+            messages.success(request, "Profil mis à jour !")
+            return redirect("client_profile")
     else:
         form = ClientProfileForm(instance=user)
+    
+    return render(request, "accounts/clients/profile_form.html", {"form": form})
 
-    return render(
-        request,
-        "accounts/clients/profile.html",
-        {"form": form}
-    )
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def password_change_custom(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Met à jour la session pour ne pas être déconnecté
+            update_session_auth_hash(request, user)
+            messages.success(request, "Votre mot de passe a été mis à jour !")
+            return redirect('client_profile')
+        else:
+            messages.error(request, "Veuillez corriger les erreurs ci-dessous.")
+    else:
+        form = PasswordChangeForm(user=request.user)
+    
+    return render(request, "accounts/clients/password_change.html", {"form": form})
 
 @login_required
 def client_orders(request):
@@ -123,11 +142,12 @@ def client_orders(request):
 
 @login_required
 def client_quotes(request):
-
+    """Liste simple des devis"""
     quotes = QuoteRequest.objects.filter(client=request.user).order_by("-created_at")
+    return render(request, "accounts/clients/quote_list.html", {"quotes": quotes})
 
-    return render(
-        request,
-        "accounts/clients/quotes.html",
-        {"quotes": quotes}
-    )
+@login_required
+def quote_detail(request, id):
+    """Page de détail d'un devis spécifique"""
+    quote = get_object_or_404(QuoteRequest, id=id, client=request.user)
+    return render(request, "accounts/clients/quote_detail.html", {"quote": quote})

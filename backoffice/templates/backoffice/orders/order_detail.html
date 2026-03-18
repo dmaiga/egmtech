@@ -1,130 +1,154 @@
 {% extends "base_admin.html" %}
-
-{% block title %}Détail Commande{% endblock %}
-
+{% load ecommerce_extras %}
+{%load format_fcfa %}
 {% block content %}
-
-<h1 class="text-3xl font-bold mb-6">
-    Commande #{{ order.id }}
-</h1>
-
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-    <!-- Infos générales -->
-    <div class="card bg-base-100 shadow">
-        <div class="card-body">
-            <h2 class="card-title">Informations</h2>
-            <p><strong>Client :</strong> {{ order.client.username }}</p>
-            <p><strong>Email :</strong> {{ order.client.email }}</p>
-            <p><strong>Type :</strong>
-                {% if order.order_type == "DEVIS" %}
-                    <span class="badge badge-warning">Demande de devis</span>
-                {% else %}
-                    <span class="badge badge-success">Achat direct</span>
-                {% endif %}
-            </p>
-            <p><strong>Date :</strong> {{ order.created_at|date:"d/m/Y H:i" }}</p>
-            <p><strong>Total estimé :</strong> {{ order.total_amount }} FCFA</p>
+<div class="max-w-6xl mx-auto py-8 px-4">
+    <div class="mb-8">
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Détails de transaction</div>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <h1 class="text-4xl font-black text-slate-800 italic uppercase tracking-tighter">Commande #{{ order.id }}</h1>
+            <div class="badge badge-lg {% if order.status == 'LIVREE' %}badge-success{% else %}badge-ghost{% endif %} font-black italic uppercase text-[10px] p-4">
+                {{ order.get_status_display }}
+            </div>
         </div>
     </div>
 
-    <!-- Statut + Actions -->
-    <div class="card bg-base-100 shadow">
-        <div class="card-body">
-            <h2 class="card-title">Statut</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <div class="space-y-6">
+            <div class="card bg-white shadow-xl rounded-[2rem] border border-slate-100 p-8">
+                <h3 class="font-black text-slate-400 uppercase text-[10px] tracking-widest mb-6 italic">Informations Client</h3>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="avatar placeholder">
+                        <div class="bg-slate-100 text-slate-500 rounded-full w-12 font-black italic uppercase">
+                            {{ order.client.username|slice:":2" }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-black text-slate-800 italic uppercase">{{ order.client.username }}</div>
+                        <div class="text-xs font-bold text-slate-400">{{ order.client.phone }}</div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="block text-[10px] font-black text-slate-400 uppercase mb-1 italic">Message client :</span>
+                    <p class="italic text-slate-600 font-medium text-sm">"{{ order.commentaire|default:"Aucun message" }}"</p>
+                </div>
+            </div>
 
-            <p class="mb-4">
-                Statut actuel :
-                <strong>{{ order.get_status_display }}</strong>
-            </p>
+            <div class="card bg-slate-900 text-white shadow-xl rounded-[2rem] p-8">
+                 <h3 class="font-black text-slate-400 uppercase text-[10px] tracking-widest mb-4 italic">Note Interne</h3>
+                 <form method="post" class="space-y-4">
+                     {% csrf_token %}
+                     <textarea name="admin_note" class="textarea bg-slate-800 border-slate-700 w-full rounded-xl text-sm" rows="3" placeholder="Suivi logistique...">{{ order.admin_note }}</textarea>
+                     <button type="submit" class="btn btn-sm w-full bg-white text-slate-900 border-none rounded-xl font-black italic uppercase text-[10px]">Mettre à jour la note</button>
+                 </form>
+            </div>
+        </div>
 
-            {% if order.status != "CONFIRMEE" %}
-                <form method="post" action="{% url 'bo_order_update_status' order.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value="CONFIRMEE">
-                    <button type="submit" class="btn btn-success w-full mb-2">
-                        Confirmer
-                    </button>
-                </form>
-            {% endif %}
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card bg-white shadow-xl rounded-[2rem] border-2 border-green-100 p-6">
+                    <h3 class="font-black text-green-600 uppercase text-[10px] tracking-widest mb-4 italic">
+                        <i class="fa-solid fa-cash-register mr-2"></i> Encaisser
+                    </h3>
+                    {% if order.status != "LIVREE" %}
+                    <form method="post" action="{% url 'order_add_payment' order.id %}" class="space-y-3">
+                        {% csrf_token %}
+                        <div class="flex gap-2">
+                            <input type="number" name="amount" step="0.01" class="input input-bordered input-sm w-1/2 rounded-xl font-bold" value="{{ order.remaining_amount }}">
+                            <select name="method" class="select select-bordered select-sm w-1/2 rounded-xl font-bold">
+                                <option value="CASH">Espèces</option>
+                                <option value="MOBILE_MONEY">Mobile Money</option>
+                                <option value="BANK_TRANSFER">Virement</option>
+                            </select>
+                        </div>
+                        <input type="text" name="reference" class="input input-bordered input-sm w-full rounded-xl" placeholder="Réf. Transaction">
+                        <button type="submit" class="btn btn-sm w-full bg-green-600 text-white border-none rounded-xl font-black italic uppercase text-[10px]">Valider</button>
+                    </form>
+                    {% else %}
+                    <div class="text-center py-6 text-green-600 font-black italic uppercase text-[10px]">
+                        <i class="fa-solid fa-circle-check text-2xl mb-2 block"></i> Réglée
+                    </div>
+                    {% endif %}
+                </div>
 
-            {% if order.status != "ANNULEE" %}
-                <form method="post" action="{% url 'bo_order_update_status' order.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="status" value="ANNULEE">
-                    <button type="submit" class="btn btn-error w-full">
-                        Annuler
-                    </button>
-                </form>
-            {% endif %}
+                <div class="card bg-white shadow-xl rounded-[2rem] border border-slate-100 p-6">
+                    <h3 class="font-black text-slate-400 uppercase text-[10px] tracking-widest mb-4 italic">Résumé Financier</h3>
+                    <div class="flex justify-between items-center border-b border-slate-50 pb-2">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Payé</span>
+                        <span class="text-lg font-black text-green-600">{{ order.total_paid|fcfa }} <small>FCFA</small></span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase">Reste</span>
+                        <span class="text-lg font-black {% if order.remaining_amount > 0 %}text-red-500{% else %}text-slate-300{% endif %}">
+                            {{ order.remaining_amount|fcfa }} <small>FCFA</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
 
+            <div class="bg-white rounded-[2rem] shadow-xl border border-slate-100 overflow-hidden">
+                <div class="p-8 border-b border-slate-50 flex justify-between items-center">
+                    <h3 class="font-black text-slate-800 uppercase italic tracking-tighter">Équipements commandés</h3>
+                    <span class="badge badge-outline font-black text-[10px] uppercase italic">{{ order.items.count }} items</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="table w-full">
+                        <thead class="bg-slate-50/50">
+                            <tr class="text-[10px] uppercase font-black text-slate-400">
+                                <th class="pl-8">Désignation</th>
+                                <th class="text-center">Qté</th>
+                                <th>Prix Unit.</th>
+                                <th class="text-right pr-8">Sous-total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in order.items.all %}
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="pl-8 py-4">
+                                    <div class="font-bold text-slate-800 italic uppercase">{{ item.product.name }}</div>
+                                    <div class="text-[10px] text-slate-400 font-bold uppercase">{{ item.product.brand }}</div>
+                                </td>
+                                <td class="text-center font-black">x{{ item.quantity }}</td>
+                                <td class="font-medium text-slate-500">{{ item.unit_price|fcfa }}</td>
+                                <td class="text-right pr-8 font-black text-slate-800 tracking-tight">{{ item.total_line_price|fcfa }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="p-8 bg-slate-50 flex justify-between items-center border-t border-slate-100">
+                    <span class="font-black text-slate-400 uppercase italic tracking-widest text-xs">Total Facturé</span>
+                    <span class="text-4xl font-black text-slate-900 italic tracking-tighter">{{ order.total_amount|fcfa }} <small class="text-xs uppercase not-italic">FCFA</small></span>
+                </div>
+            </div>
+
+            <div class="card bg-white shadow-xl rounded-[2rem] border border-slate-100 p-8">
+                <h3 class="font-black text-slate-400 uppercase text-[10px] tracking-widest mb-4 italic">Historique des transactions</h3>
+                <div class="space-y-3">
+                    {% for payment in order.payments.all %}
+                    <div class="flex justify-between items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                                <i class="fa-solid fa-receipt text-slate-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs font-black text-slate-800 uppercase italic">{{ payment.get_method_display }}</div>
+                                <div class="text-[9px] font-bold text-slate-400 uppercase">{{ payment.created_at|date:"d M Y - H:i" }}</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-black text-green-600 italic">+ {{ payment.amount|fcfa }}</div>
+                            <div class="text-[9px] font-bold text-slate-300 uppercase">Réf: {{ payment.reference|default:"--" }}</div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-center py-4 italic text-slate-400 text-xs">Aucun mouvement de caisse enregistré.</div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
-
-<!-- SECTION DEVIS -->
-{% if order.order_type == "DEVIS" %}
-<div class="card bg-base-100 shadow mt-8 border border-warning">
-    <div class="card-body">
-        <h2 class="card-title text-warning">Détails de la demande de devis</h2>
-
-        <p class="mt-4">
-            <strong>Commentaire du client :</strong>
-        </p>
-
-        <div class="bg-base-200 p-4 rounded mt-2">
-            {{ order.commentaire|linebreaks }}
-        </div>
-
-        <div class="mt-6">
-            <form method="post">
-                {% csrf_token %}
-                <label class="label">
-                    <span class="label-text">Note interne (admin)</span>
-                </label>
-                <textarea name="admin_note" class="textarea textarea-bordered w-full">
-                    {{ order.admin_note }}
-                </textarea>
-
-                <button type="submit" class="btn btn-primary mt-4">
-                    Enregistrer la note
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-{% endif %}
-
-<!-- Produits commandés -->
-<div class="card bg-base-100 shadow mt-8">
-    <div class="card-body">
-
-        <h2 class="card-title mb-4">Produits demandés</h2>
-
-        <table class="table w-full">
-            <thead>
-                <tr>
-                    <th>Produit</th>
-                    <th>Quantité</th>
-                    <th>Prix unitaire</th>
-                    <th>Total ligne</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for item in order.items.all %}
-                <tr>
-                    <td>{{ item.product.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>{{ item.unit_price }} FCFA</td>
-                    <td>{{ item.quantity }} x {{ item.unit_price }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-    </div>
-</div>
-
 {% endblock %}

@@ -1,60 +1,62 @@
 {% extends "base_admin.html" %}
 
-{% block title %}
+{% block section_title %}
     {% if is_update %}Modifier Catégorie{% else %}Nouvelle Catégorie{% endif %}
 {% endblock %}
 
 {% block content %}
-
-<div class="max-w-xl mx-auto mt-10">
-
-    <div class="card bg-base-100 shadow-xl">
-        <div class="card-body">
-
-            <h2 class="card-title mb-6">
-                {% if is_update %}
-                    Modifier la catégorie
-                {% else %}
-                    Ajouter une nouvelle catégorie
-                {% endif %}
-            </h2>
-
-            <form method="post" class="space-y-4">
-                {% csrf_token %}
-
-                <div class="form-control">
-                    <label class="label">
-                        <span class="label-text">Nom de la catégorie</span>
-                    </label>
-                    {{ form.name }}
-                </div>
-
-                <div class="form-control mt-4">
-                    <label class="cursor-pointer label">
-                        <span class="label-text">Activer la catégorie</span>
-                        {{ form.is_active }}
-                    </label>
-                </div>
-
-                <div class="card-actions justify-end mt-6">
-                    <a href="{% url 'bo_category_list' %}" class="btn btn-ghost">
-                        Annuler
-                    </a>
-
-                    <button type="submit" class="btn btn-primary">
-                        {% if is_update %}
-                            Mettre à jour
-                        {% else %}
-                            Enregistrer
-                        {% endif %}
-                    </button>
-                </div>
-
-            </form>
-
-        </div>
+<div class="max-w-2xl mx-auto">
+    <div class="text-sm breadcrumbs mb-6 text-slate-500 font-bold uppercase tracking-tighter">
+        <ul>
+            <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'bo_category_list' %}">Catégories</a></li>
+            <li class="text-egmblue">{% if is_update %}Édition{% else %}Création{% endif %}</li>
+        </ul>
     </div>
 
-</div>
+    <div class="card bg-white shadow-2xl shadow-slate-200/50 rounded-3xl border border-slate-100">
+        <div class="card-body p-10">
+            <h2 class="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3">
+                <i class="fa-solid fa-tag text-egmblue"></i>
+                {% if is_update %}Mettre à jour la catégorie{% else %}Créer une catégorie{% endif %}
+            </h2>
 
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-black text-slate-600 uppercase text-[11px] tracking-widest">Nom de la catégorie</span>
+                    </label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <p class="text-egmred text-xs mt-1 font-bold">{{ form.name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="form-control w-full">
+                    <label class="label">
+                        <span class="label-text font-black text-slate-600 uppercase text-[11px] tracking-widest">Image illustrative</span>
+                    </label>
+                    {{ form.image }}
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl flex items-center justify-between border border-slate-100">
+                    <div class="flex flex-col">
+                        <span class="font-black text-slate-700 text-sm">Statut d'activation</span>
+                        <span class="text-xs text-slate-500">Rendre cette catégorie visible sur le site</span>
+                    </div>
+                    {{ form.is_active }}
+                </div>
+
+                <div class="flex items-center justify-end gap-4 mt-10 pt-6 border-t border-slate-50">
+                    <a href="{% url 'bo_category_list' %}" class="btn btn-ghost font-bold text-slate-400">Annuler</a>
+                    <button type="submit" class="btn bg-egmblue hover:bg-blue-900 text-white border-none px-8 rounded-xl shadow-lg shadow-blue-900/20 font-black">
+                        <i class="fa-solid fa-check"></i> Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

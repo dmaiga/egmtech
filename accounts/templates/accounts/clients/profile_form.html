@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 py-10">
+    <div class="mb-10">
+        <h1 class="text-3xl font-black text-slate-900 uppercase italic tracking-tighter">Édition <span class="text-egmblue">Profil</span></h1>
+    </div>
+
+    <div class="card bg-white shadow-2xl rounded-[2.5rem] border border-slate-100">
+        <div class="card-body p-8 md:p-12">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <div class="form-control">
+                    <label class="label text-[10px] font-black uppercase text-slate-400 italic">Nouvel Avatar</label>
+                    {{ form.avatar }}
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-control">{{ form.first_name }}</div>
+                    <div class="form-control">{{ form.last_name }}</div>
+                </div>
+
+                <div class="form-control">{{ form.email }}</div>
+                <div class="form-control">{{ form.phone }}</div>
+
+                <div class="pt-6 flex gap-4">
+                    <button type="submit" class="btn flex-1 bg-egmblue text-white rounded-2xl font-black italic uppercase h-14">Sauvegarder</button>
+                    <a href="{% url 'client_profile' %}" class="btn btn-ghost rounded-2xl font-black italic uppercase h-14">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    input:not([type="file"]) { @apply input input-bordered rounded-2xl border-slate-100 bg-slate-50 font-black italic text-sm w-full h-14 !important; }
+    input[type="file"] { @apply file-input file-input-bordered w-full rounded-2xl bg-slate-50 font-black italic text-sm; }
+</style>
+{% endblock %}

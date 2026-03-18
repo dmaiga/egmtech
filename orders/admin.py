@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Order, OrderItem
+from .models import Order, OrderItem,QuoteRequest
 
+admin.site.register(QuoteRequest)
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -17,3 +18,4 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ("total_amount", "created_at")
 
     ordering = ("-created_at",)
+

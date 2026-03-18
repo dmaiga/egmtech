@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "accounts",
     "catalog",
     "orders",
+    "payments",
 
     "backoffice",
     "site_web",
@@ -97,12 +98,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+#    {
+#        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+#    },
+#    {
+#        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+#    },
 ]
 
 
@@ -145,3 +146,6 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'       
 LOGOUT_REDIRECT_URL = 'login'
 
+# Simulation d'envoi d'email en console pour le dev
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'contact@egm-tech.com'

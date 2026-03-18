@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Validation de commande | EGM{% endblock %}
 
 {% block content %}
@@ -24,10 +24,12 @@
                         <strong>Email :</strong> {{ user.email }}<br>
                         <strong>Téléphone :</strong> {{ user.phone }}
                     </p>
-                    <div class="form-control w-full">
+                 <!--  no need right 
+                      <div class="form-control w-full">
                         <label class="label"><span class="label-text font-bold text-xs uppercase text-gray-400">Instructions ou commentaires</span></label>
                         <textarea name="commentaire" class="textarea textarea-bordered h-32 focus:border-egmblue" placeholder="Ex: Livraison prévue à l'ACI 2000, demandez Mr. Coulibaly..."></textarea>
                     </div>
+                -->
                 </div>
 
                 <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100">
@@ -69,11 +71,12 @@
                     <span>{{ cart.get_total_price|floatformat:0 }} FCFA</span>
                 </div>
             </div>
-
+<!--
             <div class="mt-8 flex justify-center">
                 <img src="{% static 'images/orange_money.png' %}" class="h-8 grayscale opacity-50 hover:grayscale-0 transition cursor-help mx-2" title="Orange Money">
                 <img src="{% static 'images/moov_money.png' %}" class="h-8 grayscale opacity-50 hover:grayscale-0 transition cursor-help mx-2" title="Moov Money">
             </div>
+-->    
         </div>
     </div>
 </div>

@@ -79,10 +79,14 @@ def product_list(request):
 from django.shortcuts import render, get_object_or_404
 from .models import Product
 
+from orders.forms import CartAddProductForm 
+
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, is_active=True)
     
-    # On récupère 4 produits de la même catégorie pour la suggestion
+    # On initialise le formulaire d'ajout au panier
+    cart_product_form = CartAddProductForm()
+    
     similar_products = Product.objects.filter(
         category=product.category, 
         is_active=True
@@ -90,5 +94,6 @@ def product_detail(request, slug):
 
     return render(request, "catalog/product_detail.html", {
         "product": product,
-        "similar_products": similar_products
+        "similar_products": similar_products,
+        "cart_product_form": cart_product_form  
     })

@@ -1,0 +1,130 @@
+{% extends "base_admin.html" %}
+{%load format_fcfa %}
+{% block content %}
+<div class="max-w-2xl mx-auto py-12 px-4">
+    <a href="{% url 'payment_list' %}" class="mb-6 inline-flex items-center text-[10px] font-black uppercase text-slate-400 hover:text-slate-800 transition-colors">
+        <i class="fa-solid fa-chevron-left mr-2"></i> Retour au journal des flux
+    </a>
+
+    <div class="card bg-white shadow-2xl rounded-[3rem] border border-slate-100 overflow-hidden relative">
+        {% if payment.is_cancelled %}
+            <div class="bg-red-600 text-white text-center py-2 font-black uppercase italic text-[10px] tracking-[0.3em]">
+                <i class="fa-solid fa-ban mr-2"></i> Transaction Annulée
+            </div>
+        {% else %}
+            <div class="h-2 w-full bg-slate-900"></div>
+        {% endif %}
+
+        <div class="p-10">
+            <div class="text-center mb-10">
+                <div class="inline-block p-4 {% if payment.is_cancelled %}bg-red-50 text-red-400{% else %}bg-slate-50 text-slate-800{% endif %} rounded-full mb-4">
+                    <i class="fa-solid fa-receipt text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-black italic uppercase text-slate-800">Paiement #{{ payment.id }}</h2>
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">
+                    Enregistré le {{ payment.created_at|date:"l d F Y à H:i" }}
+                </p>
+            </div>
+
+            {% if payment.is_cancelled %}
+            <div class="bg-red-50 p-6 rounded-3xl border border-red-100 mb-8">
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-circle-exclamation text-red-500"></i>
+                    <span class="text-[10px] font-black text-red-600 uppercase italic">Détails de l'annulation</span>
+                </div>
+                <p class="text-sm text-red-700 font-bold italic mb-2">" {{ payment.cancel_reason }} "</p>
+                <p class="text-[9px] text-red-400 uppercase font-black">Annulé le {{ payment.cancelled_at|date:"d/m/Y à H:i" }}</p>
+            </div>
+            {% endif %}
+
+            <div class="space-y-6">
+                <div class="flex justify-between items-end border-b border-slate-50 pb-4">
+                    <span class="text-[10px] font-black text-slate-400 uppercase italic">Type de Flux</span>
+                    <span class="badge badge-ghost font-black text-slate-800 italic uppercase text-[10px]">
+                        {{ payment.get_payment_type_display }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between items-end border-b border-slate-50 pb-4">
+                    <span class="text-[10px] font-black text-slate-400 uppercase italic">Mode de règlement</span>
+                    <span class="font-black text-slate-800 italic uppercase tracking-tighter">
+                        <i class="fa-solid fa-wallet mr-2 opacity-20"></i>{{ payment.get_method_display }}
+                    </span>
+                </div>
+
+                <div class="bg-slate-50 rounded-2xl p-6 text-center">
+                    <h3 class="text-[9px] font-black text-slate-400 uppercase italic mb-3 tracking-widest">Origine des fonds</h3>
+                    {% if payment.order %}
+                        <a href="{% url 'bo_order_detail' payment.order.id %}" class="btn btn-outline btn-sm rounded-xl font-black italic uppercase text-[10px]">
+                            Commande #{{ payment.order.id }}
+                        </a>
+                    {% elif payment.quote %}
+                        <a href="{% url 'bo_quote_detail' payment.quote.id %}" class="btn btn-outline btn-sm rounded-xl font-black italic uppercase text-[10px]">
+                            Devis #{{ payment.quote.id }}
+                        </a>
+                    {% else %}
+                        <span class="font-black text-slate-800 uppercase italic text-xs">Vente Directe / Comptoir</span>
+                    {% endif %}
+                </div>
+
+                <div class="text-center py-6">
+                    <div class="text-[10px] font-black text-slate-400 uppercase mb-1 italic">Montant Encaissé</div>
+                    <div class="text-5xl font-black {% if payment.is_cancelled %}text-slate-300 line-through{% else %}text-slate-900{% endif %} italic tracking-tighter">
+                        {{ payment.amount|fcfa }} <small class="text-xs not-italic">FCFA</small>
+                    </div>
+                </div>
+
+                {% if not payment.is_cancelled and remaining is not None %}
+                <div class="card bg-slate-900 p-6 rounded-3xl text-white">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="text-[9px] font-black text-slate-500 uppercase italic">État du dossier</div>
+                            <div class="text-lg font-black italic uppercase">
+                                {% if remaining > 0 %}Reste à percevoir{% else %}Dossier Soldé{% endif %}
+                            </div>
+                        </div>
+                        <div class="text-right text-2xl font-black {% if remaining > 0 %}text-red-400{% else %}text-green-400{% endif %} italic">
+                            {{ remaining|fcfa }} <small class="text-[10px]">FCFA</small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if not payment.is_cancelled %}
+    <div class="mt-8 flex justify-center">
+        <label for="cancel_modal" class="btn btn-ghost text-red-500 hover:bg-red-50 rounded-2xl font-black italic uppercase text-[10px] px-8">
+            <i class="fa-solid fa-ban mr-2"></i> Annuler cette transaction
+        </label>
+    </div>
+
+    <input type="checkbox" id="cancel_modal" class="modal-toggle" />
+    <div class="modal modal-bottom sm:modal-middle">
+        <div class="modal-box bg-white rounded-[3rem] p-8">
+            <h3 class="font-black text-2xl italic uppercase text-slate-800">Confirmer l'annulation ?</h3>
+            <p class="py-4 text-sm text-slate-500 italic">
+                L'annulation repassera la commande en statut <strong>"ANNULÉE"</strong> et les produits seront <strong>remis en stock</strong> automatiquement.
+            </p>
+            
+            <form method="post" action="{% url 'payment_cancel' payment.id %}">
+                {% csrf_token %}
+                <div class="form-control mb-6">
+                    <label class="label"><span class="label-text font-black text-[10px] uppercase text-slate-400">Motif de l'annulation (Obligatoire)</span></label>
+                    <textarea name="cancel_reason" class="textarea textarea-bordered rounded-2xl h-24 font-bold text-sm" placeholder="Ex: Client a changé d'avis, erreur de montant..." required></textarea>
+                </div>
+                
+                <div class="flex gap-3">
+                    <label for="cancel_modal" class="btn flex-1 rounded-xl font-black italic uppercase text-[10px]">Abandonner</label>
+                    <button type="submit" class="btn btn-error text-white flex-1 rounded-xl font-black italic uppercase text-[10px]">
+                        Confirmer l'annulation
+                    </button>
+                </div>
+            </form>
+        </div>
+        <label class="modal-backdrop" for="cancel_modal">Close</label>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

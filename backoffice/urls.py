@@ -3,6 +3,10 @@ from . import views
 
 urlpatterns = [
     path("", views.dashboard_home, name="dashboard_home"),
+    #CLIENTS
+    path("customers/", views.customer_list, name="customer_list"),
+    path('customers/create/', views.customer_create, name='customer_create'),
+    path("customers/<int:pk>/", views.customer_detail, name="customer_detail"),
     
     # Produits
     path("products/", views.product_list, name="bo_product_list"),
@@ -22,5 +26,20 @@ urlpatterns = [
     path("orders/", views.bo_order_list, name="bo_order_list"),
     path("orders/<int:pk>/", views.bo_order_detail, name="bo_order_detail"),
     path("orders/<int:pk>/update-status/", views.bo_order_update_status, name="bo_order_update_status"),
+    # ===== QUOTE =====
+    path('devis/', views.quote_list, name='bo_quote_list'),
+    path('devis/<int:pk>/', views.quote_detail, name='bo_quote_detail'),
+
+    # ===== PAYMENT =====
+    path("payment/", views.payment_list, name="payment_list"),
+    path("payment/<int:pk>/", views.payment_detail, name="payment_detail"),
+    path('payment/<int:pk>/cancel/', views.payment_cancel, name='payment_cancel'),
+
+    path("payment/create/", views.direct_payment_create, name="direct_payment_create"),
+    path('payment/orders/<int:pk>/add-payment/', views.order_add_payment, name='order_add_payment'),
+   
+    path('payment/quotes/<int:pk>/add-payment/', views.quote_add_payment, name='quote_add_payment'),
+    path('payment/quotes/<int:pk>/close/', views.quote_close_deal, name='quote_close_deal'),
+
 
 ]

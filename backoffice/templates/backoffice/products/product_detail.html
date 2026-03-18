@@ -1,58 +1,66 @@
 {% extends "base_admin.html" %}
-
+{%load format_fcfa%}
 {% block content %}
-<div class="p-6 max-w-5xl mx-auto">
-    <div class="text-sm breadcrumbs mb-4">
-        <ul>
-            <li><a href="{% url 'bo_product_list' %}">Catalogue</a></li>
-            <li>Détails produit</li>
-        </ul>
+<div class="max-w-6xl mx-auto py-8">
+    <div class="flex items-center justify-between mb-8">
+        <div class="text-sm breadcrumbs text-slate-500 font-bold uppercase tracking-widest">
+            <ul>
+                <li><a href="{% url 'bo_product_list' %}">Inventaire</a></li>
+                <li class="text-egmblue">Détails de l'équipement</li>
+            </ul>
+        </div>
+        <div class="flex gap-2">
+            <a href="{% url 'bo_product_update' product.pk %}" class="btn btn-sm rounded-xl font-black italic bg-slate-100 border-none">Modifier</a>
+            <a href="{% url 'bo_product_delete' product.pk %}" class="btn btn-sm rounded-xl font-black italic bg-egmred/10 text-egmred border-none">Supprimer</a>
+        </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="card bg-base-100 shadow-xl">
-            <figure class="px-4 pt-4">
-                <img src="{{ product.image.url }}" class="rounded-xl object-contain h-64" />
-            </figure>
-            <div class="card-body items-center text-center">
-                <h2 class="card-title">{{ product.brand }}</h2>
-                {% if product.datasheet %}
-                <a href="{{ product.datasheet.url }}" class="btn btn-outline btn-sm w-full" target="_blank">
-                    Télécharger la Datasheet (PDF)
-                </a>
-                {% endif %}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-4 space-y-6">
+            <div class="card bg-white shadow-xl rounded-[2rem] overflow-hidden border border-slate-100">
+                <figure class="p-8 bg-slate-50">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="rounded-2xl shadow-lg w-full object-contain h-64 bg-white" />
+                    {% endif %}
+                </figure>
+                <div class="card-body p-8">
+                    <div class="badge bg-egmblue text-white font-black italic px-4 py-3 uppercase text-[10px] mb-2">{{ product.brand }}</div>
+                    <h2 class="text-2xl font-black text-slate-800 uppercase italic tracking-tighter leading-none">{{ product.name }}</h2>
+                    <div class="divider"></div>
+                    {% if product.datasheet %}
+                    <a href="{{ product.datasheet.url }}" target="_blank" class="btn btn-outline border-slate-200 text-slate-500 font-black italic w-full rounded-xl">
+                        <i class="fa-solid fa-file-pdf"></i> Fiche Technique PDF
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
-        <div class="md:col-span-2 space-y-6">
-            <div class="bg-base-100 p-6 rounded-box shadow">
-                <h1 class="text-4xl font-black mb-2">{{ product.name }}</h1>
-                <p class="text-gray-500 mb-4">{{ product.description }}</p>
-                
-                <div class="stats shadow w-full">
-                    <div class="stat">
-                        <div class="stat-title">Prix actuel</div>
-                        <div class="stat-value text-primary text-2xl">{{ product.price }} FCFA</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-title">En Stock</div>
-                        <div class="stat-value text-2xl">{{ product.stock }} unités</div>
-                    </div>
+        <div class="lg:col-span-8 space-y-6">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Prix de vente</span>
+                    <span class="text-2xl font-black text-egmblue italic">{{ product.price|fcfa }} <small class="text-xs">FCFA</small></span>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">État du Stock</span>
+                    <span class="text-2xl font-black text-slate-800 italic">{{ product.stock }} <small class="text-xs">UNITÉS</small></span>
+                </div>
+                <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Visibilité</span>
+                    {% if product.is_active %}
+                        <span class="badge badge-success text-white font-black text-[10px]">ACTIVE</span>
+                    {% else %}
+                        <span class="badge badge-ghost text-slate-400 font-black text-[10px]">HORS LIGNE</span>
+                    {% endif %}
                 </div>
             </div>
 
-            <div class="bg-base-100 p-6 rounded-box shadow">
-                <h3 class="font-bold text-lg mb-4 border-b pb-2">Fiche Technique</h3>
-                <div class="grid grid-cols-2 gap-4">
-                    {% for spec in product.specs.all %}
-                    <div class="flex justify-between border-b border-base-200 py-2">
-                        <span class="font-medium text-gray-400">{{ spec.label }}</span>
-                        <span class="font-bold">{{ spec.value }}</span>
-                    </div>
-                    {% empty %}
-                    <p class="text-sm italic">Aucune spécification ajoutée.</p>
-                    {% endfor %}
-                </div>
+            <div class="bg-white p-10 rounded-[2rem] border border-slate-100 shadow-sm">
+                <h3 class="text-lg font-black text-slate-800 uppercase italic tracking-tighter mb-4">Description Technique</h3>
+                <p class="text-slate-500 leading-relaxed font-medium">
+                    {{ product.description|default:"Aucune description fournie pour cet équipement." }}
+                </p>
             </div>
         </div>
     </div>

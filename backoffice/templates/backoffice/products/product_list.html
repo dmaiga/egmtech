@@ -1,71 +1,141 @@
 {% extends "base_admin.html" %}
+{% load format_fcfa %}
+{% block section_title %}Inventaire Produits{% endblock %}
 
 {% block content %}
-<div class="p-6">
-    <div class="flex justify-between items-center mb-8">
-        <h1 class="text-3xl font-bold">Inventaire Équipements</h1>
-        <a href="{% url 'bo_product_create' %}" class="btn btn-primary">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
-            Ajouter un produit
-        </a>
+<div class="flex flex-col md:flex-row justify-between items-end gap-4 mb-6">
+    <div>
+        <h1 class="text-3xl font-black text-slate-800 italic uppercase tracking-tighter">Catalogue Produits</h1>
+        <p class="text-slate-500 text-sm font-bold">Gérez vos équipements et niveaux de stock en temps réel.</p>
     </div>
-
-    <div class="overflow-x-auto bg-base-100 rounded-box shadow">
-        <table class="table table-zebra w-full">
-            <thead>
-                <tr class="bg-base-200">
-                    <th>Produit</th>
-                    <th>Marque</th>
-                    <th>Catégorie</th>
-                    <th>Prix (FCFA)</th>
-                    <th>Stock</th>
-                    <th>Statut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for product in products %}
-                <tr>
-                    <td>
-                        <div class="flex items-center space-x-3">
-                            <div class="avatar">
-                                <div class="mask mask-squircle w-12 h-12">
-                                    <img src="{{ product.image.url|default:'/static/img/no-image.png' }}" alt="{{ product.name }}" />
-                                </div>
-                            </div>
-                            <div class="font-bold">{{ product.name }}</div>
-                        </div>
-                    </td>
-                    <td><span class="badge badge-ghost">{{ product.brand }}</span></td>
-                    <td>{{ product.category.name }}</td>
-                    <td class="font-mono">{{ product.price }}</td>
-                    <td>
-                        {% if product.stock < 5 %}
-                            <span class="text-error font-bold">{{ product.stock }} (Critique)</span>
-                        {% else %}
-                            {{ product.stock }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if product.is_active %}
-                            <div class="badge badge-success gap-2">En ligne</div>
-                        {% else %}
-                            <div class="badge badge-ghost gap-2">Hors ligne</div>
-                        {% endif %}
-                    </td>
-<td>
-    <a href="{% url 'bo_product_update' product.pk %}" class="btn btn-sm btn-primary">Edit</a>
-
-    <a href="{% url 'bo_product_toggle' product.pk %}" class="btn btn-sm btn-warning">
-        {% if product.is_active %}Désactiver{% else %}Activer{% endif %}
+    <a href="{% url 'bo_product_create' %}" class="btn bg-egmblue hover:bg-blue-900 text-white border-none shadow-xl shadow-blue-900/20 rounded-2xl px-6 font-black italic tracking-tighter uppercase h-12">
+        <i class="fa-solid fa-plus-circle"></i> Ajouter un produit
     </a>
+</div>
 
-    <a href="{% url 'bo_product_delete' product.pk %}" class="btn btn-sm btn-error">Supprimer</a>
-</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="bg-slate-100/50 p-4 rounded-[2rem] mb-8 border border-slate-200/60">
+    <form method="get" class="flex flex-wrap items-center gap-3">
+        <div class="relative flex-1 min-w-[200px]">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input type="text" name="search" value="{{ search_query }}" placeholder="Nom du produit..." 
+                   class="input input-sm w-full pl-10 rounded-xl font-bold text-xs h-10 border-slate-200 focus:border-egmblue">
+        </div>
+
+        <select name="brand" class="select select-sm rounded-xl font-bold text-[10px] uppercase h-10 border-slate-200">
+            <option value="">Toutes les marques</option>
+            {% for brand in brands %}
+                <option value="{{ brand }}" {% if selected_brand == brand %}selected{% endif %}>{{ brand }}</option>
+            {% endfor %}
+        </select>
+
+        <select name="category" class="select select-sm rounded-xl font-bold text-[10px] uppercase h-10 border-slate-200">
+            <option value="">Toutes les catégories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"i" %}selected{% endif %}>{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-sm bg-slate-800 text-white rounded-xl uppercase italic font-black text-[10px] h-10 px-6">
+            Filtrer
+        </button>
+
+        {% if search_query or selected_brand or selected_category %}
+            <a href="{% url 'bo_product_list' %}" class="btn btn-sm btn-ghost text-red-500 font-black text-[10px] uppercase italic">Effacer</a>
+        {% endif %}
+    </form>
+</div>
+
+<div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 overflow-hidden border border-slate-100">
+    <table class="table w-full">
+        <thead class="bg-slate-50 border-b border-slate-100">
+            <tr class="text-slate-400 font-black text-[10px] uppercase tracking-[0.2em]">
+                <th class="py-6 pl-8">Produit</th>
+                <th>Marque & Catégorie</th>
+                <th>Prix (FCFA)</th>
+                <th class="text-center">Stock</th>
+                <th>Statut</th>
+                <th class="text-right pr-8">Actions</th>
+            </tr>
+        </thead>
+        <tbody class="text-slate-600">
+            {% for product in products %}
+            <tr class="hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-none">
+                <td class="pl-8 py-4">
+                    <div class="flex items-center gap-4">
+                        <div class="avatar">
+                            <div class="mask mask-squircle w-12 h-12 bg-slate-100">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="object-cover" />
+                                {% else %}
+                                    <div class="flex items-center justify-center h-full text-[8px] font-black text-slate-300 italic">EGM</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="font-black text-slate-800 uppercase italic tracking-tighter">{{ product.name }}</div>
+                            <div class="text-[10px] font-bold text-slate-400">REF: {{ product.id|stringformat:"05d" }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="badge bg-slate-100 border-none text-slate-500 font-bold text-[10px] uppercase">{{ product.brand }}</div>
+                    <div class="text-xs font-black text-egmblue mt-1 uppercase italic">{{ product.category.name }}</div>
+                </td>
+                <td class="font-black text-slate-800 tracking-tight">{{ product.price|fcfa }}</td>
+                <td class="text-center">
+                    {% if product.stock <= 5 %}
+                        <div class="badge badge-error gap-1 text-[10px] font-black text-white px-3 py-3">
+                            <i class="fa-solid fa-triangle-exclamation"></i> {{ product.stock }}
+                        </div>
+                    {% else %}
+                        <div class="badge bg-slate-100 border-none text-slate-700 font-black px-4 py-3">{{ product.stock }}</div>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if product.is_active %}
+                        <div class="badge badge-success gap-2 text-[10px] font-black uppercase text-white px-3 py-3 italic">En ligne</div>
+                    {% else %}
+                        <div class="badge badge-ghost gap-2 text-[10px] font-black uppercase text-slate-400 px-3 py-3 border-slate-200 italic">Hors ligne</div>
+                    {% endif %}
+                </td>
+                <td class="text-right pr-8 space-x-1">
+                    <a href="{% url 'bo_product_detail' product.pk %}" class="btn btn-square btn-sm bg-white border-slate-200 hover:bg-slate-100 transition-all rounded-lg shadow-sm">
+                        <i class="fa-solid fa-eye text-slate-500 text-xs"></i>
+                    </a>
+                    <a href="{% url 'bo_product_update' product.pk %}" class="btn btn-square btn-sm bg-white border-slate-200 hover:bg-egmblue hover:text-white transition-all rounded-lg shadow-sm">
+                        <i class="fa-solid fa-pen text-xs"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="py-20 text-center">
+                    <i class="fa-solid fa-box-open text-4xl text-slate-200 mb-4 block"></i>
+                    <p class="font-black uppercase tracking-widest text-xs text-slate-400">Aucun produit ne correspond à vos critères</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if products.has_other_pages %}
+    <div class="p-8 bg-slate-50 border-t border-slate-100 flex justify-center">
+        <div class="join">
+            {% if products.has_previous %}
+                <a href="?page={{ products.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" 
+                   class="join-item btn btn-sm bg-white font-black italic uppercase text-[10px]">Précédent</a>
+            {% endif %}
+
+            <button class="join-item btn btn-sm bg-white font-black text-[10px] no-animation">
+                Page {{ products.number }} / {{ products.paginator.num_pages }}
+            </button>
+
+            {% if products.has_next %}
+                <a href="?page={{ products.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_brand %}&brand={{ selected_brand }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}" 
+                   class="join-item btn btn-sm bg-white font-black italic uppercase text-[10px]">Suivant</a>
+            {% endif %}
+        </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

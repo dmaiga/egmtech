@@ -57,8 +57,8 @@
             <div class="py-4 border-t border-slate-50">
                 <ul class="steps steps-horizontal w-full text-[9px] font-black uppercase tracking-tighter">
                     <li class="step {% if order.status != 'ANNULEE' %}step-primary{% endif %}">Attente</li>
-                    <li class="step {% if order.status == 'CONFIRMEE' or order.status == 'LIVREE' %}step-primary{% endif %}">Confirmée</li>
-                    <li class="step {% if order.status == 'LIVREE' %}step-primary{% endif %}">Livrée</li>
+                    <li class="step {% if order.status == 'EXPEDIEE'  %}step-primary{% endif %}">Expédition</li>
+                    <li class="step {% if order.status == 'LIVREE' %}step-primary{% endif %}">Livrée et payée</li>
                 </ul>
             </div>
 

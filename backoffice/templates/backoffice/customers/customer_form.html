@@ -1,0 +1,78 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto py-10">
+    <div class="mb-8 flex items-center gap-4">
+        <a href="{% url 'customer_list' %}" class="btn btn-circle btn-ghost shadow-sm bg-white">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <div>
+            <h1 class="text-3xl font-black text-slate-800 italic uppercase tracking-tighter">Nouveau Client</h1>
+            <p class="text-slate-500 text-xs font-bold uppercase italic">L'identifiant sera généré automatiquement (prenom.nom)</p>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+        
+        <div class="card bg-white shadow-xl rounded-[2.5rem] border border-slate-100 p-8 md:p-12">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Prénom</span></label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <p class="text-red-500 text-[10px] mt-1 font-bold italic">{{ form.first_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Nom de famille</span></label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <p class="text-red-500 text-[10px] mt-1 font-bold italic">{{ form.last_name.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 border-t border-slate-50 pt-6">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Email professionnel</span></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <p class="text-red-500 text-[10px] mt-1 font-bold italic">{{ form.email.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Téléphone / WhatsApp</span></label>
+                    {{ form.phone }}
+                    {% if form.phone.errors %}
+                        <p class="text-red-500 text-[10px] mt-1 font-bold italic">{{ form.phone.errors.0 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Rôle</span></label>
+                    {{ form.role }}
+                </div>
+                <div class="form-control w-full">
+                    <label class="label"><span class="label-text font-black uppercase italic text-slate-500 text-[10px]">Photo de profil</span></label>
+                    {{ form.avatar }}
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 mb-8 bg-slate-50 p-5 rounded-3xl border border-slate-100">
+                <input type="checkbox" name="send_welcome_email" checked class="checkbox checkbox-primary checkbox-sm rounded-lg">
+                <label class="text-[10px] font-black uppercase text-slate-600 italic">Envoyer les identifiants de connexion par email</label>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="btn bg-egmblue hover:bg-slate-900 text-white border-none rounded-2xl px-12 font-black uppercase italic tracking-tighter shadow-lg h-14">
+                    Enregistrer le client <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

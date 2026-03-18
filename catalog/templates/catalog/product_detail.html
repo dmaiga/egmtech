@@ -64,25 +64,20 @@
 
             <div class="space-y-4">
                 {% if product.stock > 0 %}
-                <form action="{% url 'cart_add' product.id %}" method="post" class="flex flex-col gap-4">
-                    {% csrf_token %}
-                    
-                    <div class="flex items-center gap-4">
-                        <div class="form-control">
-                            <label class="label pt-0"><span class="label-text-alt font-black text-gray-400 uppercase">Quantité</span></label>
-                            <div class="flex items-center border-2 border-gray-200 rounded-xl bg-white h-14">
-                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="px-4 text-xl font-bold hover:text-egmred">-</button>
-                                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
-                                       class="w-12 text-center font-black text-lg bg-transparent border-none focus:ring-0">
-                                <button type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="px-4 text-xl font-bold hover:text-egmred">+</button>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-lg bg-egmblue hover:bg-slate-900 text-white border-none flex-grow h-14 rounded-xl shadow-lg shadow-blue-900/20">
-                            Ajouter au panier
-                        </button>
-                    </div>
-                </form>
+<form action="{% url 'cart_add' product.id %}" method="post" class="flex items-center gap-4 flex-grow">
+    {% csrf_token %}
+    
+    <div class="flex items-center bg-slate-100 rounded-xl px-2 h-14 border border-slate-200">
+        {{ cart_product_form.quantity }}
+    </div>
+
+    {{ cart_product_form.override }}
+
+    <button type="submit" class="btn btn-lg bg-egmblue hover:bg-slate-900 text-white border-none flex-grow h-14 rounded-xl shadow-lg shadow-blue-900/20 uppercase font-black italic">
+        <i class="fa-solid fa-cart-plus mr-2"></i>
+        Ajouter au panier
+    </button>
+</form>
                 {% endif %}
                 
                 <div class="grid grid-cols-1 gap-3">
