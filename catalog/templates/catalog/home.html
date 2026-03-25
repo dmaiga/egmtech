@@ -3,36 +3,39 @@
 
 {% block content %}
 
-<section class="relative w-full bg-slate-900 min-h-[450px] md:min-h-[600px] flex items-center overflow-hidden">
+<section class="relative w-full bg-white min-h-[500px] md:min-h-[700px] flex items-center overflow-hidden">
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=2000" 
-             alt="Vidéosurveillance Pro" 
-             class="w-full h-full object-cover opacity-40">
-        <div class="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-slate-900 via-slate-900/80 to-transparent"></div>
+        <img src="{% static 'images/hero_section.avif' %}" 
+             alt="Vidéosurveillance Haute Technologie EGM" 
+             class="w-full h-full object-cover object-right md:object-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/40 to-transparent"></div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 md:px-12 relative z-10 w-full">
         <div class="max-w-2xl py-12 md:py-20 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-egmred text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-egmred text-white text-[10px] md:text-xs font-bold uppercase tracking-widest mb-8 shadow-lg">
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
                 </span>
-                Expertise Mali
+                Leader de la sécurité au Mali
             </div>
-            <h1 class="text-3xl md:text-6xl font-black text-white leading-tight mb-6">
-                Vidéosurveillance & <br class="hidden md:block">
-                <span class="text-egmblue bg-white px-2 italic">Réseaux Intelligents</span>
+
+            <h1 class="text-4xl md:text-7xl font-black text-white leading-[1.1] mb-8 drop-shadow-md">
+                Infrastructures <br class="hidden md:block">
+                <span class="text-egmblue bg-white px-3 py-1 inline-block mt-2 skew-x-[-6deg] not-italic">Connectées</span>
             </h1>
-            <p class="text-base md:text-xl text-slate-300 mb-10 leading-relaxed max-w-lg mx-auto md:mx-0">
-                EGM Technologies déploie vos infrastructures de sécurité électronique, fibre optique et solutions solaires partout au Mali.
+
+            <p class="text-lg md:text-2xl text-slate-100 mb-10 leading-relaxed max-w-lg mx-auto md:mx-0 font-medium">
+                Vidéosurveillance intelligente, fibre optique et énergie solaire : nous sécurisons l'avenir de vos projets au Mali.
             </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="{% url 'product_list' %}" class="btn btn-md md:btn-lg bg-egmred hover:bg-red-700 text-white border-none md:px-10">
-                    Nos équipements
+
+            <div class="flex flex-col sm:flex-row gap-5 justify-center md:justify-start">
+                <a href="{% url 'product_list' %}" class="btn btn-md md:btn-lg bg-egmred hover:bg-red-700 text-white border-none md:px-12 rounded-xl shadow-xl transition-all hover:-translate-y-1">
+                    Voir le catalogue
                 </a>
-                <a href="{% url 'request_quote' %}" class="btn btn-md md:btn-lg btn-outline text-white border-white hover:bg-white hover:text-slate-900 md:px-10">
-                    Obtenir un devis
+                <a href="{% url 'request_quote' %}" class="btn btn-md md:btn-lg btn-outline text-white border-2 border-white hover:bg-white hover:text-slate-900 md:px-12 rounded-xl transition-all">
+                    Demander un devis
                 </a>
             </div>
         </div>
@@ -41,29 +44,35 @@
 
 <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
     
-    <section class="mb-12 md:mb-16">
-        <h2 class="text-lg md:text-xl font-bold mb-8 text-gray-800 uppercase tracking-wider border-l-4 border-egmblue pl-3">
-            Nos Domaines d'Expertise
+<section class="mb-12 md:mb-16">
+    <div class="flex items-center justify-between mb-8">
+        <h2 class="text-lg md:text-xl font-bold text-gray-800 uppercase tracking-wider border-l-4 border-egmblue pl-3">
+            Explorer nos Solutions
         </h2>
-        <div class="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-            {% for cat in categories %}
-            <a href="#" class="flex flex-col items-center group">
-                <div class="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-egmblue transition-all duration-300 mb-2 md:mb-4 bg-white shadow-sm flex items-center justify-center">
-                    {% if cat.image %}
-                        <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                    {% else %}
-                        <span class="text-2xl">📦</span>
-                    {% endif %}
-                </div>
-                <span class="text-[10px] md:text-xs font-bold text-center uppercase text-gray-600 group-hover:text-egmblue transition-colors line-clamp-1">
-                    {{ cat.name }}
-                </span>
-            </a>
-            {% endfor %}
-        </div>
-    </section>
+        <a href="{% url 'product_list' %}" class="text-xs font-bold text-egmblue hover:underline">Voir tout le catalogue →</a>
+    </div>
 
-    <section class="mb-12 md:mb-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+        {% for cat in categories %}
+        <a href="{% url 'product_list' %}?category={{ cat.slug }}" class="flex flex-col items-center group">
+            {# Remplacement de rounded-full par rounded-2xl et bg-slate-50 pour le contraste #}
+            <div class="w-full aspect-square md:w-32 md:h-32 rounded-2xl overflow-hidden border-2 border-gray-100 group-hover:border-egmblue group-hover:shadow-xl transition-all duration-300 mb-2 md:mb-4 bg-slate-50 flex items-center justify-center p-2">
+                {% if cat.image %}
+                    {# Utilisation de object-contain pour ne jamais couper l'image du produit #}
+                    <img src="{{ cat.image.url }}" alt="{{ cat.name }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500">
+                {% else %}
+                    <span class="text-3xl group-hover:scale-125 transition-transform">📦</span>
+                {% endif %}
+            </div>
+            <span class="text-[10px] md:text-xs font-black text-center uppercase text-gray-700 group-hover:text-egmblue transition-colors line-clamp-2 px-1">
+                {{ cat.name }}
+            </span>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="mb-12 md:mb-16">
         <div class="flex items-center gap-4 mb-8">
             <h2 class="text-xl md:text-2xl font-black text-egmred uppercase tracking-tighter italic">Offres Spéciales</h2>
             <div class="h-[2px] flex-grow bg-egmred/20"></div>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Contact - EGM Tech{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-1 space-y-8">
+            <h1 class="text-3xl font-black italic uppercase text-slate-900">Contactez <br><span class="text-egmred">Nos Experts</span></h1>
+            
+            <div class="space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 text-egmblue">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <span class="block font-black text-[10px] uppercase text-slate-400">Siège Social</span>
+                        <p class="text-sm font-bold">ACI 2000, Bamako, Mali</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 text-egmred">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                        <span class="block font-black text-[10px] uppercase text-slate-400">Téléphones</span>
+                        <p class="text-sm font-bold">+223 73 30 65 95 / 74 89 33 73</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-2 bg-white border border-slate-100 rounded-3xl p-8 md:p-12">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-success bg-green-50 border-none rounded-xl mb-6 text-green-700 font-bold text-sm">
+                        <i class="fa-solid fa-check-circle"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" class="grid md:grid-cols-2 gap-6">
+                {% csrf_token %}
+                
+                <div class="form-control">
+                    <label class="label"><span class="label-text font-bold uppercase text-[10px]">Nom Complet</span></label>
+                    {{ form.name }}
+                </div>
+
+                <div class="form-control">
+                    <label class="label"><span class="label-text font-bold uppercase text-[10px]">Téléphone (WhatsApp)</span></label>
+                    {{ form.phone }}
+                </div>
+
+                <div class="form-control md:col-span-2">
+                    <label class="label"><span class="label-text font-bold uppercase text-[10px]">Email Pro (Optionnel)</span></label>
+                    {{ form.email }}
+                </div>
+
+                <div class="form-control md:col-span-2">
+                    <label class="label"><span class="label-text font-bold uppercase text-[10px]">Sujet de votre demande</span></label>
+                    {{ form.subject }}
+                </div>
+
+                <div class="form-control md:col-span-2">
+                    <label class="label"><span class="label-text font-bold uppercase text-[10px]">Votre Message</span></label>
+                    {{ form.message }}
+                </div>
+
+                <div class="md:col-span-2">
+                    <button type="submit" class="btn btn-block bg-slate-900 text-white border-none rounded-xl uppercase italic font-black hover:bg-egmblue transition-all">
+                        Envoyer le message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

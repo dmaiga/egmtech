@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Qui sommes-nous ? - EGM Tech{% endblock %}
+
+{% block content %}
+<div class="bg-slate-50 border-b border-slate-200 py-4">
+    <div class="max-w-7xl mx-auto px-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+        <a href="{% url 'home' %}" class="hover:text-egmblue transition-colors">Home</a> 
+        <span class="mx-2">/</span> 
+        <span class="text-slate-900 italic">Qui sommes-nous ?</span>
+    </div>
+</div>
+
+<section class="max-w-7xl mx-auto px-4 py-12 md:py-24">
+    <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+        <div class="order-2 lg:order-1">
+            <span class="text-egmred font-black uppercase tracking-[0.3em] text-[10px] italic">Expertise & Vision</span>
+            <h1 class="text-3xl md:text-6xl font-black text-slate-900 mt-4 mb-6 md:mb-8 uppercase tracking-tighter leading-none">
+                Nous sommes <br class="hidden md:block"> <span class="text-egmblue italic">EGM TECH</span>
+            </h1>
+            <div class="space-y-6 text-slate-600 leading-relaxed text-sm md:text-base">
+                <p>
+                    <strong class="text-slate-900">EGM-SARL</strong> est une société experte en installation de systèmes de télécommunication et de sécurité au Mali. Nous offrons des solutions complètes de raccordement et d’installation de fibre optique, vidéosurveillance intelligente et protection périmétrique.
+                </p>
+                <p>
+                    Notre savoir-faire s’étend aux réseaux informatiques et à la sécurité électronique globale, garantissant des solutions fiables et adaptées aux exigences de nos clients B2B et institutionnels.
+                </p>
+            </div>
+            
+            <div class="mt-8 md:mt-10 flex items-center gap-6 border-t border-slate-100 pt-8">
+                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Suivez-nous :</span>
+                <div class="flex gap-4">
+                    <a href="#" class="text-slate-400 hover:text-egmblue transition-colors text-lg"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-egmblue transition-colors text-lg"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-egmblue transition-colors text-lg"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-1 lg:order-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="bg-slate-900 p-8 rounded-3xl text-white flex flex-col justify-center border-b-4 border-egmred shadow-xl">
+                <i class="fa-solid fa-handshake-angle text-egmred text-2xl mb-4"></i>
+                <span class="text-4xl md:text-5xl font-black italic mb-1 tracking-tighter">350</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-60 italic">Clients au Mali</span>
+            </div>
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 flex flex-col justify-center shadow-sm">
+                <i class="fa-solid fa-diagram-project text-egmblue text-2xl mb-4"></i>
+                <span class="text-4xl md:text-5xl font-black italic mb-1 tracking-tighter text-egmblue">125</span>
+                <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 italic">Projets réalisés</span>
+            </div>
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 sm:col-span-2 flex items-center justify-between shadow-sm">
+                <div>
+                    <span class="text-4xl md:text-5xl font-black italic tracking-tighter text-slate-900">20</span>
+                    <span class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 italic">Experts en activité</span>
+                </div>
+                <div class="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center">
+                    <i class="fa-solid fa-users-gear text-3xl text-egmblue"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-slate-900 py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-12 items-start">
+            <div class="lg:col-span-1">
+                <h2 class="text-2xl md:text-3xl font-black uppercase italic text-white mb-6 tracking-tight leading-none">
+                    Notre Mission, <br> <span class="text-egmred underline decoration-2 underline-offset-8">nos valeurs</span>
+                </h2>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Innover constamment pour sécuriser l'avenir technologique de nos partenaires au Mali.
+                </p>
+            </div>
+            <div class="lg:col-span-2 grid md:grid-cols-2 gap-8 md:gap-12">
+                <div class="p-6 border-l border-white/10">
+                    <h3 class="text-white font-bold uppercase text-xs mb-4 tracking-widest">Écoute Active</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Chaque projet commence par une compréhension profonde des besoins spécifiques de nos clients pour offrir un service sur-mesure.
+                    </p>
+                </div>
+                <div class="p-6 border-l border-egmred">
+                    <h3 class="text-white font-bold uppercase text-xs mb-4 tracking-widest">Engagement & Qualité</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Fidèle à nos engagements, nous accompagnons nos partenaires de la conception à l’installation avec un suivi technique impeccable.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-20">
+    <div class="text-center mb-16">
+        <span class="text-egmblue font-black uppercase tracking-widest text-[10px]">Témoignages</span>
+        <h2 class="text-2xl md:text-4xl font-black uppercase italic mt-2">Ils nous font <span class="text-egmred">confiance</span></h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-8 rounded-3xl border border-slate-100 relative overflow-hidden group hover:border-egmblue transition-all">
+            <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <i class="fa-solid fa-quote-right text-6xl"></i>
+            </div>
+            <div class="flex gap-1 text-egmred mb-4 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-sm text-slate-600 italic mb-6 leading-relaxed">
+                "Le déploiement de la fibre optique dans nos bureaux a été réalisé avec un professionnalisme exemplaire. EGM est un partenaire de choix."
+            </p>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-egmblue text-xs italic">D</div>
+                <div>
+                    <p class="text-xs font-black uppercase">Directeur Technique</p>
+                    <p class="text-[10px] text-slate-400">Secteur Télécom, Bamako</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl border border-slate-100 relative overflow-hidden group hover:border-egmblue transition-all">
+             <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <i class="fa-solid fa-quote-right text-6xl"></i>
+            </div>
+            <div class="flex gap-1 text-egmred mb-4 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-sm text-slate-600 italic mb-6 leading-relaxed">
+                "Installation de vidéosurveillance intelligente très efficace. Le suivi après-vente est réactif, ce qui est rare."
+            </p>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-egmblue text-xs italic">G</div>
+                <div>
+                    <p class="text-xs font-black uppercase">Gérant de PME</p>
+                    <p class="text-[10px] text-slate-400">Sécurité Résidentielle, Kayes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-8 rounded-3xl border border-slate-100 relative overflow-hidden group hover:border-egmblue transition-all">
+             <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <i class="fa-solid fa-quote-right text-6xl"></i>
+            </div>
+            <div class="flex gap-1 text-egmred mb-4 text-xs">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+            </div>
+            <p class="text-sm text-slate-600 italic mb-6 leading-relaxed">
+                "Experts sérieux. Les solutions solaires installées tournent sans aucune interruption. Je recommande vivement EGM-SARL."
+            </p>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center font-black text-egmblue text-xs italic">A</div>
+                <div>
+                    <p class="text-xs font-black uppercase">Agent Logistique</p>
+                    <p class="text-[10px] text-slate-400">Infrastructures, Sikasso</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-slate-50 py-16 md:py-24 border-t border-slate-100">
+    <div class="max-w-7xl mx-auto px-4">
+        <h2 class="text-center text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 mb-12">Nos Partenaires Stratégiques</h2>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+            <span class="text-xl md:text-2xl font-black italic">PARTENAIRE</span>
+            <span class="text-xl md:text-2xl font-black italic">PARTENAIRE</span>
+            <span class="text-xl md:text-2xl font-black italic">PARTENAIRE</span>
+            <span class="text-xl md:text-2xl font-black italic">PARTENAIRE</span>
+        </div>
+    </div>
+</section>
+{% endblock %}

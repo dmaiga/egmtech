@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{% block title %}EGM Techn{% endblock %}</title>
+    <title>{% block title %}EGM Technologie{% endblock %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
@@ -51,9 +51,12 @@
 
             <div class="flex-none hidden lg:block mr-6">
                 <ul class="menu menu-horizontal px-1 font-bold text-sm uppercase tracking-wider">
-                    <li><a href="{% url 'product_list' %}" class="hover:text-egmblue">Catalogue</a></li>
-                    <li><a href="{% url 'client_quotes' %}" class="hover:text-egmblue">Devis</a></li>
-                </ul>
+                    <li><a href="{% url 'home' %}">Accueil</a></li>
+                    <li><a href="{% url 'product_list' %}">Catalogue</a></li>
+                    <li><a href="{% url 'services' %}">Nos Services</a></li>
+                    <li><a href="{% url 'about' %}">À Propos</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                 </ul>
             </div>
 
             <div class="flex-none gap-1">
@@ -125,8 +128,12 @@
             <ul class="menu p-6 w-80 min-h-full bg-white text-slate-800 font-bold uppercase tracking-wider space-y-4">
                 <li class="mb-6"><span class="text-2xl italic font-black">EGM<span class="text-egmred">.</span></span></li>
                 <li><a href="{% url 'home' %}">Accueil</a></li>
-                <li><a href="{% url 'product_list' %}">Catalogue Produits</a></li>
-                <li><a href="{% url 'request_quote' %}">Demande de Devis</a></li>
+                <li><a href="{% url 'product_list' %}" class="hover:text-egmblue">Catalogue Produits</a></li>
+                <li><a href="{% url 'services' %}" class="hover:text-egmblue">Services</a></li> 
+                <li><a href="{% url 'about' %}" class="hover:text-egmblue">À Propos</a></li>
+                <li><a href="{% url 'contact' %}" class="hover:text-egmblue">Contact</a></li> 
+                <li><a href="{% url 'request_quote' %}"> Devis</a></li>
+
                 <div class="divider"></div>
                 {% if not user.is_authenticated %}
                 <li><a href="{% url 'login' %}" class="btn btn-primary text-white">Connexion</a></li>
@@ -156,8 +163,8 @@
     <footer class="bg-slate900 text-slate-400 py-12 px-6 border-t border-slate-800 mt-20">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
             <div>
-                <h3 class="text-white font-black text-xl mb-4 italic uppercase">EGM Technologies</h3>
-                <p class="text-sm leading-relaxed mb-6">Expertise en sécurité électronique, réseaux informatiques et solutions solaires au Mali.</p>
+                <h3 class="text-white font-black text-xl mb-4 italic uppercase">EGM Tech </h3>
+                <p class="text-sm leading-relaxed mb-6">Entreprise spécialise dans les travaux d'installation des matériaux des systèmes de sécurité électronique et des équipements telecom.</p>
                 <div class="flex gap-4">
                     <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-egmblue transition"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-egmblue transition"><i class="fab fa-whatsapp"></i></a>
@@ -167,7 +174,7 @@
                 <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Liens utiles</h4>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{% url 'product_list' %}" class="hover:text-white transition">Nos produits</a></li>
-                    <li><a href="{% url 'request_quote' %}" class="hover:text-white transition">Demander un chiffrage</a></li>
+                    <li><a href="{% url 'request_quote' %}" class="hover:text-white transition">Demander un devis</a></li>
                     <li><a href="#" class="hover:text-white transition">Assistance Technique</a></li>
                 </ul>
             </div>
@@ -178,7 +185,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto border-t border-slate-800 mt-10 pt-6 text-center text-[10px] uppercase font-bold tracking-widest">
-            &copy; 2026 EGM Technologies - Tous droits réservés.
+            &copy; 2026 EGM Tech - Tous droits réservés.
         </div>
     </footer>
 

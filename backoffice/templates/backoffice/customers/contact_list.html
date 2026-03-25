@@ -1,0 +1,61 @@
+{% extends "base_admin.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-10">
+    <div class="flex justify-between items-center mb-10">
+        <h1 class="text-2xl font-black uppercase italic tracking-tighter">Gestion des <span class="text-egmblue">Prospects</span></h1>
+        <div class="badge badge-outline font-bold">{{ message.count }} Message(s)</div>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-3xl border border-slate-100 shadow-sm">
+        <table class="table table-zebra w-full">
+            <thead class="bg-slate-50">
+                <tr class="text-[10px] uppercase tracking-widest text-slate-400">
+                    <th>Date</th>
+                    <th>Client</th>
+                    <th>Contact</th>
+                    <th>Sujet</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm">
+                {% for msg in message %}
+                <tr class="hover:bg-slate-50 transition-colors">
+                    <td class="font-medium text-slate-400">{{ msg.created_at|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="font-black text-slate-900 uppercase">{{ msg.name }}</div>
+                    </td>
+                    <td>
+                        <div class="flex flex-col gap-1">
+                            <a href="tel:{{ msg.phone }}" class="flex items-center gap-2 text-egmblue font-bold">
+                                <i class="fa-solid fa-phone text-[10px]"></i> {{ msg.phone }}
+                            </a>
+                            <a href="https://wa.me/{{ msg.phone|cut:' ' }}" target="_blank" class="flex items-center gap-2 text-green-600 text-[10px] font-bold">
+                                <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                            </a>
+                        </div>
+                    </td>
+                    <td class="italic text-slate-500">{{ msg.subject }}</td>
+                    <td>
+                        {% if msg.status == 'NEW' %}
+                            <span class="badge bg-egmred border-none text-white text-[10px] font-black uppercase">Nouveau</span>
+                        {% elif msg.status == 'IN_PROGRESS' %}
+                            <span class="badge bg-orange-400 border-none text-white text-[10px] font-black uppercase">En cours</span>
+                        {% else %}
+                            <span class="badge bg-green-500 border-none text-white text-[10px] font-black uppercase">Traité</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'admin_contact_detail' msg.id %}" class="btn btn-xs bg-slate-900 text-white border-none rounded-lg italic">Gérer</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-10 text-slate-400 italic">Aucun message reçu pour le moment.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

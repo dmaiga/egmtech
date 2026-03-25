@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Nos Services - EGM Tech{% endblock %}
+
+{% block content %}
+
+<section class="relative bg-slate-900 py-24 md:py-12 text-white overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070" 
+             alt="Expertise Technique EGM" 
+             class="w-full h-full object-cover opacity-30 grayscale">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4">
+        <div class="max-w-2xl">
+            <span class="inline-block bg-egmred text-white font-black uppercase tracking-[0.3em] text-[10px] px-3 py-1 italic mb-6">
+                Expertise Technique au Mali
+            </span>
+            <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-6">
+                Nos <br>
+                <span class="text-egmblue bg-white px-4 italic inline-block mt-2">Services</span>
+            </h1>
+            <p class="text-slate-300 max-w-xl text-sm md:text-base leading-relaxed font-medium">
+                De la fibre optique à la sécurité électronique intelligente : nous bâtissons les infrastructures critiques qui soutiennent votre croissance.
+            </p>
+        </div>
+    </div>
+    
+    <div class="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-egmblue/50 to-transparent"></div>
+</section>
+
+<div class="max-w-7xl mx-auto px-4 py-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmblue mb-6 group-hover:bg-egmblue group-hover:text-white transition-colors">
+                <i class="fa-solid fa-network-wired text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Fibre Optique</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Installation, maintenance et génie civil pour un réseau fiable et performant.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmred mb-6 group-hover:bg-egmred group-hover:text-white transition-colors">
+                <i class="fa-solid fa-shield-halved text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Sécurité Électronique</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Solutions avancées pour protéger vos biens : vidéosurveillance, alarmes, contrôle d’accès.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmblue mb-6 group-hover:bg-egmblue group-hover:text-white transition-colors">
+                <i class="fa-solid fa-bolt-lightning text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Énergie</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Installation solaire et centrales électriques pour une énergie durable et fiable.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmred mb-6 group-hover:bg-egmred group-hover:text-white transition-colors">
+                <i class="fa-solid fa-server text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Réseau Informatique</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Mise en place experte de systèmes technologiques adaptés à vos besoins.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmblue mb-6 group-hover:bg-egmblue group-hover:text-white transition-colors">
+                <i class="fa-solid fa-tools text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Maintenance Informatique</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Installation, maintenance et service après-vente, un suivi complet pour vos équipements.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+        <div class="group p-8 border border-slate-100 hover:border-egmblue transition-all bg-white rounded-2xl flex flex-col">
+            <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-egmred mb-6 group-hover:bg-egmred group-hover:text-white transition-colors">
+                <i class="fa-solid fa-graduation-cap text-xl"></i>
+            </div>
+            <h3 class="font-black uppercase text-sm mb-3 tracking-tight">Formations</h3>
+            <p class="text-xs text-slate-500 leading-relaxed mb-6 flex-grow">
+                Ateliers pratiques et démonstrations pour maîtriser les technologies de sécurité.
+            </p>
+            <a href="#" class="text-[10px] font-black uppercase italic text-egmred flex items-center gap-2 hover:gap-4 transition-all">
+                Read more <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<section class="bg-slate-50 py-16 border-t border-slate-100">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h2 class="text-2xl font-black uppercase italic mb-6">Besoin d'une étude technique ?</h2>
+        <a href="{% url 'request_quote' %}" class="btn bg-egmblue text-white border-none rounded-xl px-12 italic uppercase font-black">
+            Lancer mon projet
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -699,3 +699,30 @@ def payment_cancel(request, pk):
         return redirect('payment_detail', pk=payment.id)
     
     return redirect('payment_detail', pk=pk)
+
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, UpdateView
+from site_web.models import ContactMessage
+from django.urls import reverse_lazy
+
+# Liste des messages pour le dashboard
+class AdminContactListView(LoginRequiredMixin, ListView):
+    model = ContactMessage
+    template_name = "backoffice/customers/contact_list.html"
+    context_object_name = "message"
+
+    def get_queryset(self):
+        return ContactMessage.objects.all().order_by('-created_at')
+
+# Vue pour mettre à jour le statut ou ajouter une note
+class AdminContactDetailView(LoginRequiredMixin, UpdateView):
+    model = ContactMessage
+    fields = ['status', 'admin_note'] # On ne permet de modifier que le statut et la note
+    template_name = "backoffice/customers/contact_detail.html"
+    context_object_name = "msg"
+    success_url = reverse_lazy('admin_contact_list')
+
+    def form_valid(self, form):
+        # On peut ajouter une petite notification ici
+        return super().form_valid(form)

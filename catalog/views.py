@@ -5,7 +5,7 @@ from catalog.models import Product, Category
 
 def home(request):
     # On récupère les catégories actives
-    categories = Category.objects.filter(is_active=True)[:6]
+    categories = Category.objects.filter(is_active=True).order_by('?')[:6] 
     
     # Les 4 derniers produits ajoutés (Nouveautés)
     latest_products = Product.objects.filter(is_active=True).order_by('-created_at')[:4]

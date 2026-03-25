@@ -84,7 +84,11 @@
                 <i class="fa-solid fa-file-invoice-dollar w-5 text-sm {% if 'quote' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
                 <span class="text-sm font-bold uppercase italic tracking-tight">Devis & Proformas</span>
             </a>
-
+            <a href="{% url 'admin_contact_list' %}" 
+               class="flex items-center gap-3 px-4 py-3.5 rounded-xl transition-all group {% if 'prospects' in request.path %}nav-link-active{% else %}nav-link-inactive{% endif %}">
+                <i class="fa-solid fa-file-invoice-dollar w-5 text-sm {% if 'prospects' in request.path %}text-white{% else %}group-hover:text-egmred{% endif %}"></i>
+                <span class="text-sm font-bold uppercase italic tracking-tight">Prospects</span>
+            </a>
             <p class="px-4 text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 mt-8">Stock & Offres</p>
             
             <a href="{% url 'bo_product_list' %}" 
