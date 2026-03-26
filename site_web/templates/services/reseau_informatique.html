@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative bg-slate-950 py-20 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-40">
+        <img src="{% static 'images/services/reseau_informatique.jpg' %}" alt="Réseau Informatique" class="w-full h-full object-cover">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent"></div>
+    
+    <div class="relative max-w-7xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-egmblue/20 border border-egmblue/30 mb-6">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-egmblue opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-egmred"></span>
+            </span>
+            <span class="text-egmred text-[10px] font-black uppercase tracking-widest">Expertise Réseau Mali</span>
+        </div>
+        <h1 class="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+            Réseau <br><span class="text-egmred text-3xl md:text-6xl">Informatique</span>
+        </h1>
+        <p class="text-slate-400 max-w-xl text-sm md:text-lg leading-relaxed">
+            Installation, tests et mise en service d'infrastructures fiables et sécurisées pour votre entreprise.
+        </p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="mb-20">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="h-8 w-1 bg-egmblue"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Audit & Accompagnement</h2>
+        </div>
+        
+        <div class="grid lg:grid-cols-2 gap-8 items-stretch">
+            <div class="bg-slate-900 p-8 rounded-3xl text-white flex flex-col justify-between">
+                <div>
+                    <div class="text-egmred font-black text-5xl mb-4 italic">EGM</div>
+                    <p class="text-xl font-bold mb-6 text-slate-200">Spécialistes expérimentés et qualifiés</p>
+                    <p class="text-sm text-slate-400 leading-relaxed mb-8">
+                        Pour l’installation d’un réseau informatique et les tests avant la mise en service, il est recommandé de choisir des experts. Notre équipe se plie à votre cahier des charges pour déployer le réseau dont vous avez besoin pour assurer vos missions. Nous sommes opérationnels sur tout le Mali.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
+                        <h4 class="text-egmred font-bold text-xs uppercase mb-2">Audit de parc</h4>
+                        <p class="text-[10px] text-slate-400">Évaluation complète et accompagnement stratégique.</p>
+                    </div>
+                    <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
+                        <h4 class="text-egmred font-bold text-xs uppercase mb-2">Devis Détaillés</h4>
+                        <p class="text-[10px] text-slate-400">Chiffrage précis pour anticiper vos besoins budgétaires.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <div class="group p-6 bg-slate-50 rounded-2xl border-l-4 border-egmblue transition-all hover:bg-white hover:shadow-xl">
+                    <h3 class="font-black text-sm uppercase mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-microchip text-egmblue"></i> Dimensionnement
+                    </h3>
+                    <p class="text-xs text-slate-600">Nous dimensionnons le groupe en fonction de l’architecture de votre réseau pour gagner en efficacité.</p>
+                </div>
+                <div class="group p-6 bg-slate-50 rounded-2xl border-l-4 border-egmblue transition-all hover:bg-white hover:shadow-xl">
+                    <h3 class="font-black text-sm uppercase mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-gears text-egmblue"></i> Personnalisation
+                    </h3>
+                    <p class="text-xs text-slate-600">Maintenance d’infrastructure et personnalisation des configurations durant toutes les phases de développement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-16">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="h-8 w-1 bg-egmred"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Nos Compétences</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 01</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Déterminer les besoins</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 02</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Installer les câbles</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 03</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Installer les serveurs</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 04</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Commutateurs réseaux</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 05</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Logiciels serveurs</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm">
+                <span class="text-egmred font-black text-xs uppercase">Phase 06</span>
+                <h4 class="font-bold text-sm mt-2 uppercase">Droits d’accès</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm md:col-span-2">
+                <span class="text-egmred font-black text-xs uppercase">Phase 07</span>
+                <h4 class="font-bold text-sm mt-2 uppercase italic text-egmblue underline decoration-egmred">Mettre en place les filets de sécurité</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-16">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="h-8 w-1 bg-egmblue"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Nos Services Informatiques</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmblue group hover:bg-egmblue transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">Cybersécurité</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Protection intégrale de vos flux de données.</p>
+            </div>
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmred group hover:bg-egmred transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">Gestion de projet</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Accompagnement de A à Z dans vos déploiements.</p>
+            </div>
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmblue group hover:bg-egmblue transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">Maintenance & Support</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Assistance technique et support continu.</p>
+            </div>
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmred group hover:bg-egmred transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">Intégration Systèmes</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Unification de vos outils informatiques.</p>
+            </div>
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmblue group hover:bg-egmblue transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">Formation & Conseil</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Transfert de compétences et consultation tech.</p>
+            </div>
+            <div class="p-6 bg-slate-900 rounded-2xl border-t-4 border-egmred group hover:bg-egmred transition-colors duration-300">
+                <h3 class="text-white font-black text-sm uppercase mb-2">IoT</h3>
+                <p class="text-slate-400 text-[10px] group-hover:text-white">Objets connectés et Internet des Objets.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

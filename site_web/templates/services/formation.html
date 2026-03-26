@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative bg-slate-950 py-20 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-40">
+        <img src="{% static 'images/services/formation.jpg' %}" alt="Formation EGM-TECH" class="w-full h-full object-cover">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-transparent"></div>
+    
+    <div class="relative max-w-7xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-egmred/20 border border-egmred/30 mb-6">
+            <span class="text-egmred text-[10px] font-black uppercase tracking-widest text-white">Apprendre avec les experts</span>
+        </div>
+        <h1 class="text-4xl md:text-7xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+            NOS SÉANCES DE <br><span class="bg-egmred px-4 text-white inline-block mt-2">FORMATION</span>
+        </h1>
+        <p class="text-slate-300 max-w-xl text-sm md:text-lg leading-relaxed font-bold">
+            EGM-TECH propose des sessions de formation adaptées aux particuliers et aux entreprises pour maîtriser les technologies de demain au Mali.
+        </p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="mb-20">
+        <div class="flex items-center gap-3 mb-10">
+            <div class="h-8 w-1 bg-egmred"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Particuliers & Entreprises</h2>
+        </div>
+        
+        <div class="grid lg:grid-cols-2 gap-8">
+            <div class="bg-slate-900 p-8 rounded-3xl text-white border-b-8 border-egmred">
+                <h3 class="text-2xl font-black uppercase mb-4 text-white"><span class="text-egmred">Pour</span> l'Entreprise</h3>
+                <p class="text-sm text-slate-400 leading-relaxed mb-6">
+                    Optimisez la productivité de vos collaborateurs. Nous formons vos équipes techniques à la gestion de projet informatique, à la cybersécurité et à la maintenance d'infrastructure.
+                </p>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmred"></i> Gestion de parc informatique</li>
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmred"></i> Sécurité des données</li>
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmred"></i> Intégration de systèmes</li>
+                </ul>
+            </div>
+            
+            <div class="bg-slate-50 p-8 rounded-3xl text-slate-800 border-b-8 border-egmblue">
+                <h3 class="text-2xl font-black uppercase mb-4 text-slate-900"><span class="text-egmred">Pour</span> le Particulier</h3>
+                <p class="text-sm text-slate-500 leading-relaxed mb-6">
+                    Prenez en main votre autonomie énergétique ou informatique. Apprenez à gérer votre installation solaire ou à sécuriser votre réseau domestique avec nos experts.
+                </p>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmblue"></i> Initiation à l'énergie solaire</li>
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmblue"></i> Maintenance informatique de base</li>
+                    <li class="flex items-center gap-2 text-[10px] font-black uppercase"><i class="fa-solid fa-check text-egmblue"></i> Utilisation des objets connectés (IoT)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-16">
+        <h2 class="text-xl font-black uppercase mb-8 text-white bg-egmred inline-block px-6 py-2">Nos Domaines d'Intervention</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-shield-virus text-egmred text-2xl mb-4"></i>
+                <h4 class="font-black text-xs uppercase">Cybersécurité</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-solar-panel text-egmred text-2xl mb-4"></i>
+                <h4 class="font-black text-xs uppercase">Énergie Solaire</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-network-wired text-egmred text-2xl mb-4"></i>
+                <h4 class="font-black text-xs uppercase">Réseaux & Maintenance</h4>
+            </div>
+            <div class="p-6 bg-white border border-slate-100 rounded-2xl shadow-sm hover:shadow-lg transition-shadow">
+                <i class="fa-solid fa-microchip text-egmred text-2xl mb-4"></i>
+                <h4 class="font-black text-xs uppercase">IoT & Innovation</h4>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

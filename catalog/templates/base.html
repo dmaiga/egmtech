@@ -159,35 +159,84 @@
     <main class="flex-grow">
         {% block content %}{% endblock %}
     </main>
+<footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t border-slate-800 mt-20">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+        
+        <div class="md:col-span-1">
+            <div class="mb-6">
+                <img src="{% static 'images/egm_logo.png' %}" alt="EGM Tech Logo" class="h-12 w-auto mb-4 object-contain">
+                <h3 class="text-white font-black text-xl italic uppercase leading-none">
+                    EGM <span class="text-egmred">Tech</span>
+                </h3>
+            </div>
+            <p class="text-xs leading-relaxed mb-6 italic">
+                Entreprise spécialisée dans l'installation de systèmes de sécurité électronique, équipements télécom et solutions d'énergie renouvelable au Mali.
+            </p>
+            <div class="flex gap-3">
+                <a href="#" class="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-egmred text-white transition-all duration-300">
+                    <i class="fab fa-facebook-f text-sm"></i>
+                </a>
+                <a href="#" class="w-9 h-9 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-green-600 text-white transition-all duration-300">
+                    <i class="fab fa-whatsapp text-sm"></i>
+                </a>
+            </div>
+        </div>
 
-    <footer class="bg-slate900 text-slate-400 py-12 px-6 border-t border-slate-800 mt-20">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div>
-                <h3 class="text-white font-black text-xl mb-4 italic uppercase">EGM Tech </h3>
-                <p class="text-sm leading-relaxed mb-6">Entreprise spécialise dans les travaux d'installation des matériaux des systèmes de sécurité électronique et des équipements telecom.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-egmblue transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-egmblue transition"><i class="fab fa-whatsapp"></i></a>
+        <div>
+            <h4 class="text-white font-black mb-6 uppercase text-[10px] tracking-[0.2em] border-b border-egmred w-fit pb-1">
+                Navigation
+            </h4>
+            <ul class="space-y-3 text-xs font-bold uppercase tracking-wider">
+                <li><a href="{% url 'product_list' %}" class="hover:text-egmred transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px]"></i> Nos produits</a></li>
+                <li><a href="{% url 'galerie' %}" class="hover:text-egmred transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px]"></i> Galerie</a></li>
+                <li><a href="{% url 'formation' %}" class="hover:text-egmred transition-colors flex items-center gap-2"><i class="fa-solid fa-chevron-right text-[8px]"></i> Formations</a></li>
+              
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-black mb-6 uppercase text-[10px] tracking-[0.2em] border-b border-egmred w-fit pb-1">
+                Support
+            </h4>
+            <ul class="space-y-3 text-xs font-bold uppercase tracking-wider">
+                <li><a href="{% url 'request_quote' %}" class="text-egmred hover:text-white transition-colors flex items-center gap-2 font-black italic underline decoration-2 offset-4">Demander un devis</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Assistance Technique</a></li>
+                <li><a href="#" class="hover:text-white transition-colors">Maintenance</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-white font-black mb-6 uppercase text-[10px] tracking-[0.2em] border-b border-egmred w-fit pb-1">
+                Contact Bamako
+            </h4>
+            <div class="space-y-4 text-xs font-bold uppercase tracking-wider">
+                <div class="flex items-start gap-3">
+                    <i class="fa-solid fa-location-dot text-egmred mt-1"></i>
+                    <span>ACI 2000,<br>Bamako, Mali</span>
+                </div>
+                <div class="flex flex-col gap-2 lowercase">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-envelope text-egmred"></i>
+                        <span class="text-white">egmtech10@gmail.com</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-globe text-egmred"></i>
+                        <span class="text-white">contact@egmtech.co</span>
+                    </div>
                 </div>
             </div>
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Liens utiles</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="{% url 'product_list' %}" class="hover:text-white transition">Nos produits</a></li>
-                    <li><a href="{% url 'request_quote' %}" class="hover:text-white transition">Demander un devis</a></li>
-                    <li><a href="#" class="hover:text-white transition">Assistance Technique</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Contact Bamako</h4>
-                <p class="text-sm">ACI 2000, Bamako, Mali</p>
-                <p class="text-white font-bold mt-2">info@egm-technologies.com</p>
-            </div>
         </div>
-        <div class="max-w-7xl mx-auto border-t border-slate-800 mt-10 pt-6 text-center text-[10px] uppercase font-bold tracking-widest">
-            &copy; 2026 EGM Tech - Tous droits réservés.
+    </div>
+
+    <div class="max-w-7xl mx-auto border-t border-slate-800 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-[9px] uppercase font-black tracking-[0.3em] text-slate-500">
+            &copy; 2026 EGM Tech Mali - Infrastructure & Security
+        </p>
+        <div class="text-[9px] uppercase font-black tracking-[0.2em] text-slate-600">
+            Conception & Réalisation Digitale
         </div>
-    </footer>
+    </div>
+</footer>
 
     {% if cart|length > 0 %}
     <div class="fixed bottom-6 right-6 z-50 md:hidden animate-pulse">

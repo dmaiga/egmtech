@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative bg-slate-900 py-16 md:py-24 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-40">
+        <img src="{% static 'images/services/fibre_optique.jpg' %}" alt="Fibre Optique Background" class="w-full h-full object-cover">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/90"></div>
+    
+    <div class="relative max-w-7xl mx-auto text-center">
+        <span class="inline-block px-3 py-1 bg-egmred text-white text-[10px] font-black uppercase tracking-widest mb-4 rounded">Expertise Infrastructures</span>
+        <h1 class="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter mb-4">
+            Fibre <span class="text-egmred">Optique</span>
+        </h1>
+        <p class="text-slate-300 max-w-xl mx-auto text-sm md:text-lg leading-relaxed">
+            Construction, entretien et maintenance de réseaux optiques haute performance.
+        </p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="mb-16">
+        <div class="flex items-center gap-3 mb-8">
+            <div class="h-1 w-8 bg-egmblue"></div>
+            <h2 class="text-xl md:text-2xl font-black uppercase tracking-tight text-slate-800">Expertise Réseau</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            <div class="p-6 md:p-8 bg-slate-50 rounded-2xl border-l-4 md:border-l-0 md:border-b-4 border-egmblue transition-transform active:scale-[0.98]">
+                <div class="flex items-center md:block gap-4 mb-4 md:mb-6">
+                    <i class="fa-solid fa-compass-drafting text-2xl text-egmblue"></i>
+                    <h3 class="font-bold text-base md:text-lg uppercase">Ingénierie & Design</h3>
+                </div>
+                <ul class="text-xs md:text-sm text-slate-600 space-y-4">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmblue mt-0.5"></i> Études et conception des réseaux</li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmblue mt-0.5"></i> Création de la schématique</li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmblue mt-0.5"></i> Jonctions intérieures & extérieures</li>
+                </ul>
+            </div>
+
+            <div class="p-6 md:p-8 bg-white shadow-lg shadow-slate-100 rounded-2xl border-l-4 md:border-l-0 md:border-b-4 border-egmred transition-transform active:scale-[0.98]">
+                <div class="flex items-center md:block gap-4 mb-4 md:mb-6">
+                    <i class="fa-solid fa-tower-broadcast text-2xl text-egmred"></i>
+                    <h3 class="font-bold text-base md:text-lg uppercase">Déploiement FTTx</h3>
+                </div>
+                <ul class="text-xs md:text-sm text-slate-600 space-y-4">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmred mt-0.5"></i> Projets FTTH / FTTB / FTTS</li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmred mt-0.5"></i> Distribution verticale & horizontale</li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-egmred mt-0.5"></i> Fibre aérienne (Traditionnelle & OPWG)</li>
+                </ul>
+            </div>
+
+            <div class="p-6 md:p-8 bg-slate-50 rounded-2xl border-l-4 md:border-l-0 md:border-b-4 border-egmblue">
+                <div class="flex items-center md:block gap-4 mb-4 md:mb-6">
+                    <i class="fa-solid fa-microchip text-2xl text-egmblue"></i>
+                    <h3 class="font-bold text-base md:text-lg uppercase">Mesures & Contrôles</h3>
+                </div>
+                <p class="text-[11px] text-slate-500 mb-4 italic uppercase tracking-wider">Protocoles de précision :</p>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-2 bg-white text-slate-700 text-[10px] font-black rounded-lg shadow-sm border border-slate-100">OTDR</span>
+                    <span class="px-3 py-2 bg-white text-slate-700 text-[10px] font-black rounded-lg shadow-sm border border-slate-100">POWERMETER</span>
+                    <span class="px-3 py-2 bg-white text-slate-700 text-[10px] font-black rounded-lg shadow-sm border border-slate-100">PMD / CD</span>
+                    <span class="px-3 py-2 bg-white text-slate-700 text-[10px] font-black rounded-lg shadow-sm border border-slate-100">CONTINUITÉ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row bg-slate-900 rounded-3xl overflow-hidden text-white">
+        <div class="h-56 lg:h-auto lg:w-1/2 overflow-hidden">
+            <img src="{% static 'images/services/fibre_optique_detail.jpg' %}" alt="Infrastructure" class="w-full h-full object-cover opacity-80">
+        </div>
+        <div class="p-8 md:p-16 lg:w-1/2">
+            <h2 class="text-2xl md:text-3xl font-black uppercase mb-8 leading-tight text-white">Tirage & <br class="hidden md:block"><span class="text-egmred">Infrastructure</span></h2>
+            <div class="space-y-8">
+                <div class="flex gap-4 group">
+                    <div class="w-10 h-10 shrink-0 bg-egmred/20 text-egmred flex items-center justify-center rounded-xl group-hover:bg-egmred group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-truck-ramp-box text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Génie Civil & Câblage</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1 leading-relaxed">Tirage en galeries, caniveaux, canalisations et calibrage de précision.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 group">
+                    <div class="w-10 h-10 shrink-0 bg-egmblue/20 text-egmblue flex items-center justify-center rounded-xl group-hover:bg-egmblue group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-wind text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Soufflage Haute Pression</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1 leading-relaxed">Soufflage de micro-câbles et installation de micro-tubes en environnements complexes.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4 group">
+                    <div class="w-10 h-10 shrink-0 bg-egmred/20 text-egmred flex items-center justify-center rounded-xl group-hover:bg-egmred group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-network-wired text-sm"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Connexion Finale</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1 leading-relaxed">Raccordement client, installation d'équipements actifs et publiphonie.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

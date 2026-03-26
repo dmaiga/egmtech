@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="relative bg-slate-900 py-20 px-4 overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+        <img src="{% static 'images/services/panneau_solaire.jpg' %}" alt="Énergie Solaire" class="w-full h-full object-cover">
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900"></div>
+    
+    <div class="relative max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter mb-6">
+            Énergie <span class="text-egmred">Solaire</span>
+        </h1>
+        <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-lg leading-relaxed">
+            Production d’énergies renouvelables décentralisées et solutions de décarbonation pour entreprises, collectivités et industries au Mali.
+        </p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="h-1 w-12 bg-egmblue"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Vision & Engagement</h2>
+        </div>
+        <div class="p-8 bg-slate-50 rounded-3xl border-l-8 border-egmblue">
+            <p class="text-sm md:text-base text-slate-600 leading-relaxed italic">
+                "Nous défendons une vision du marché qui repose sur la production d’énergies renouvelables décentralisées, au cœur des territoires. Notre objectif est d’accompagner la décarbonation des activités dans une logique de fourniture de services durable."
+            </p>
+        </div>
+    </div>
+
+    <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8">
+            <div class="h-1 w-12 bg-egmred"></div>
+            <h2 class="text-2xl font-black uppercase tracking-tight text-slate-800">Matériel & Équipements</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm border-b-4 border-egmblue">
+                <i class="fa-solid fa-bolt-lightning text-3xl text-egmblue mb-6"></i>
+                <h3 class="font-black text-sm uppercase mb-4">Onduleurs & Régulateurs</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Gamme Victron Energy (Phoenix, Multiplus) pour une conversion efficace de l'énergie solaire en électricité utilisable.
+                </p>
+            </div>
+
+            <div class="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm border-b-4 border-egmred">
+                <i class="fa-solid fa-car-battery text-3xl text-egmred mb-6"></i>
+                <h3 class="font-black text-sm uppercase mb-4">Solutions de Stockage</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Batteries de qualité pour maximiser l'autoconsommation et assurer une alimentation continue, même sans soleil.
+                </p>
+            </div>
+
+            <div class="p-8 bg-white border border-slate-100 rounded-2xl shadow-sm border-b-4 border-egmblue">
+                <i class="fa-solid fa-gears text-3xl text-egmblue mb-6"></i>
+                <h3 class="font-black text-sm uppercase mb-4">Accessoires & Sécurité</h3>
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Câblage toutes sections, matériel de protection, parafoudres et connecteurs certifiés pour optimiser votre système.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row bg-slate-900 rounded-3xl overflow-hidden text-white mb-16">
+        <div class="h-56 lg:h-auto lg:w-1/2 overflow-hidden">
+            <img src="{% static 'images/services/panneau_solaire.jpg' %}" alt="Technologie Solaire" class="w-full h-full object-cover">
+        </div>
+        <div class="p-8 md:p-16 lg:w-1/2">
+            <h2 class="text-2xl md:text-3xl font-black uppercase mb-8 leading-tight">Solutions <span class="text-egmred">Intelligentes</span></h2>
+            <div class="space-y-6">
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 shrink-0 bg-egmred flex items-center justify-center rounded-xl">
+                        <i class="fa-solid fa-chart-line text-sm text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Moniteurs de Suivi</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1">Surveillez vos performances, votre production et vos économies en temps réel.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 shrink-0 bg-egmblue flex items-center justify-center rounded-xl">
+                        <i class="fa-solid fa-arrow-right-to-bracket text-sm text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Injection Réseau</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1">Équipements de qualité pour injecter l'excédent d'électricité dans le réseau partagé.</p>
+                    </div>
+                </div>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 shrink-0 bg-egmred flex items-center justify-center rounded-xl">
+                        <i class="fa-solid fa-microchip text-sm text-white"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold uppercase text-xs md:text-sm tracking-wide">Solutions Smart</h4>
+                        <p class="text-slate-400 text-[11px] md:text-xs mt-1">Intégration d'outils pour l'autoconsommation optimisée et intelligente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
