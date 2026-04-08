@@ -5,13 +5,12 @@ from catalog.models import Product, Category
 
 def home(request):
     # On récupère les catégories actives
-    categories = Category.objects.filter(is_active=True).order_by('?')[:6] 
+    categories = Category.objects.filter(is_active=True).order_by('name') 
     
     # Les 4 derniers produits ajoutés (Nouveautés)
     latest_products = Product.objects.filter(is_active=True).order_by('-created_at')[:4]
 
     # Produits en promotion (ceux qui ont un pourcentage > 0)
-    # Note : Vérifie si ton modèle utilise 'promo_active' ou juste 'promo_percent > 0'
     promo_products = Product.objects.filter(
         is_active=True, 
         promo_percent__gt=0
