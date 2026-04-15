@@ -3,7 +3,9 @@
 <html lang="fr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{% static 'images/egm_logo.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/egm_logo.png' %}">
     <title>{% block title %}EGM Technologie{% endblock %}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -42,22 +44,58 @@
                 </label>
             </div>
 
-            <div class="flex-1 px-2">
-                <a href="{% url 'home' %}" class="flex items-center gap-2">
-                    <span class="text-xl md:text-2xl font-black tracking-tighter uppercase italic">
-                        EGM<span class="text-egmred">.</span><span class="text-egmblue">TECH</span>
-                    </span>
-                </a>
-            </div>
+<div class="flex-1 px-2">
+    <a href="{% url 'home' %}" class="flex items-center gap-3 group">
+        <img src="{% static 'images/egm_logo.png' %}" 
+             alt="EGM Tech Logo" 
+             class="h-8 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+    </a>
+</div>
 
             <div class="flex-none hidden lg:block mr-6">
-                <ul class="menu menu-horizontal px-1 font-bold text-sm uppercase tracking-wider">
-                    <li><a href="{% url 'home' %}">Accueil</a></li>
-                    <li><a href="{% url 'product_list' %}">Catalogue</a></li>
-                    <li><a href="{% url 'services' %}">Nos Services</a></li>
-                    <li><a href="{% url 'about' %}">À Propos</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                 </ul>
+                <ul class="menu menu-horizontal px-1 font-bold text-sm uppercase tracking-wider gap-2">
+                    <li><a href="{% url 'home' %}" class="hover:text-egmred transition-colors">Accueil</a></li>
+
+                    <li class="dropdown dropdown-hover">
+                        <div tabindex="0" role="button" class="hover:text-egmred transition-colors font-bold">
+                            Produits <i class="fa-solid fa-chevron-down text-[8px] ml-1"></i>
+                        </div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-2xl bg-white rounded-xl w-60 border border-slate-100 mt-0">
+                            <li>
+                                <a href="{% url 'product_list' %}" class="py-3 font-black italic text-egmblue">
+                                    Tous les produits
+                                </a>
+                            </li>
+                            <div class="divider my-0 opacity-50"></div>
+
+                            {% for cat in nav_categories %}
+                            <li>
+                                <a href="{% url 'product_list' %}?category={{ cat.slug }}" class="text-[10px] py-2">
+                                    {{ cat.name }}
+                                </a>
+                            </li>
+                            {% empty %}
+                            <li class="disabled"><span class="text-[10px]">Aucune catégorie</span></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown dropdown-hover">
+                        <div tabindex="0" role="button" class="hover:text-egmred transition-colors">Nos Services <i class="fa-solid fa-chevron-down text-[8px] ml-1"></i></div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-2xl bg-white rounded-xl w-64 border border-slate-100 mt-0">
+                            <li><a href="{% url 'services' %}" class="font-black italic text-egmblue">Vue d'ensemble</a></li>
+                            <div class="divider my-0 opacity-50"></div>
+                            <li><a href="{% url 'fibre_optique' %}" class="text-[10px]">Fibre Optique</a></li>
+                            <li><a href="{% url 'securite_electronique' %}" class="text-[10px]">Sécurité Électronique</a></li>
+                            <li><a href="{% url 'energie_solaire' %}" class="text-[10px]">Énergie Solaire</a></li>
+                            <li><a href="{% url 'reseau_informatique' %}" class="text-[10px]">Réseau Informatique</a></li>
+                            <li><a href="{% url 'maintenance_informatique' %}" class="text-[10px]">Maintenance</a></li>
+                        </ul>
+                    </li>
+                
+                    <li><a href="{% url 'about' %}" class="hover:text-egmred transition-colors">À Propos</a></li>
+                    <li><a href="{% url 'contact' %}" class="hover:text-egmred transition-colors">Contact</a></li>
+                </ul>
             </div>
 
             <div class="flex-none gap-1">
@@ -71,66 +109,86 @@
                     </div>
                 </a>
 
-{% if user.is_authenticated %}
-<div class="dropdown dropdown-end ml-2">
-    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar border-2 {% if user.role == 'ADMIN' %}border-egmred{% else %}border-egmblue{% endif %} shadow-sm">
-        <div class="w-10 rounded-full flex items-center justify-center {% if user.role == 'ADMIN' %}bg-slate-900{% else %}bg-egmblue{% endif %} text-white overflow-hidden">
-            {% if user.avatar %}
-                <img src="{{ user.avatar.url }}" class="object-cover w-full h-full" />
-            {% else %}
-                <span class="font-black italic text-xs">{{ user.username|slice:":1"|upper }}</span>
-            {% endif %}
-        </div>
-    </div>
+                {% if user.is_authenticated %}
+                <div class="dropdown dropdown-end ml-2">
+                    <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar border-2 {% if user.role == 'ADMIN' %}border-egmred{% else %}border-egmblue{% endif %} shadow-sm">
+                        <div class="w-10 rounded-full flex items-center justify-center {% if user.role == 'ADMIN' %}bg-slate-900{% else %}bg-egmblue{% endif %} text-white overflow-hidden">
+                            {% if user.avatar %}
+                                <img src="{{ user.avatar.url }}" class="object-cover w-full h-full" />
+                            {% else %}
+                                <span class="font-black italic text-xs">{{ user.username|slice:":1"|upper }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                
+                    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-60 border border-slate-100 font-medium">
+                        <li class="menu-title italic text-[10px] uppercase font-black text-slate-400 border-b border-slate-50 mb-2 pb-2">
+                            Connecté : {{ user.username }} 
+                            <span class="block text-[8px] tracking-widest {% if user.role == 'ADMIN' %}text-egmred{% else %}text-egmblue{% endif %}">
+                                {% if user.role == 'ADMIN' %}ACCÈS ADMINISTRATEUR{% else %}ESPACE CLIENT{% endif %}
+                            </span>
+                        </li>
+                    
+                        {% if user.role == "ADMIN" %}
+                            <li class="mb-1">
+                                <a href="{% url 'dashboard_home' %}" class="bg-slate-900 text-white hover:bg-slate-800 py-3 rounded-xl font-black italic uppercase text-[10px] flex justify-between">
+                                    Administration EGM <i class="fa-solid fa-gauge-high"></i>
+                                </a>
+                            </li>
+                            <div class="divider my-1 opacity-50"></div>
+                        {% endif %}
+                        
+                        <li><a href="{% url 'client_profile' %}" class="py-2.5"><i class="fa-solid fa-user-circle opacity-50"></i> Mon Profil</a></li>
+                        <li><a href="{% url 'client_orders' %}" class="py-2.5"><i class="fa-solid fa-box-open opacity-50"></i> Mes commandes</a></li>
+                        
+                        <li>
+                        <a href="{% url 'password_change' %}" class="flex items-center gap-3 py-3 rounded-xl hover:bg-slate-50 transition-all group">
+                            <i class="fa-solid fa-shield-halved text-egmred opacity-70 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-xs font-black uppercase italic tracking-tighter text-slate-700"> Password</span>
+                        </a>
+                        </li>
+                        <div class="divider my-1 opacity-50"></div>
+                        <li><a href="{% url 'logout' %}" class="text-egmred py-2.5 font-bold"><i class="fa-solid fa-power-off"></i> Déconnexion</a></li>
 
-    <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-2xl bg-white rounded-2xl w-60 border border-slate-100 font-medium">
-        <li class="menu-title italic text-[10px] uppercase font-black text-slate-400 border-b border-slate-50 mb-2 pb-2">
-            Connecté : {{ user.username }} 
-            <span class="block text-[8px] tracking-widest {% if user.role == 'ADMIN' %}text-egmred{% else %}text-egmblue{% endif %}">
-                {% if user.role == 'ADMIN' %}ACCÈS ADMINISTRATEUR{% else %}ESPACE CLIENT{% endif %}
-            </span>
-        </li>
-
-        {% if user.role == "ADMIN" %}
-            <li class="mb-1">
-                <a href="{% url 'dashboard_home' %}" class="bg-slate-900 text-white hover:bg-slate-800 py-3 rounded-xl font-black italic uppercase text-[10px] flex justify-between">
-                    Administration EGM <i class="fa-solid fa-gauge-high"></i>
-                </a>
-            </li>
-            <div class="divider my-1 opacity-50"></div>
-        {% endif %}
-
-        <li><a href="{% url 'client_profile' %}" class="py-2.5"><i class="fa-solid fa-user-circle opacity-50"></i> Mon Profil</a></li>
-        <li><a href="{% url 'client_orders' %}" class="py-2.5"><i class="fa-solid fa-box-open opacity-50"></i> Mes commandes</a></li>
-        
-        <li>
-        <a href="{% url 'password_change' %}" class="flex items-center gap-3 py-3 rounded-xl hover:bg-slate-50 transition-all group">
-            <i class="fa-solid fa-shield-halved text-egmred opacity-70 group-hover:scale-110 transition-transform"></i>
-            <span class="text-xs font-black uppercase italic tracking-tighter text-slate-700"> Password</span>
-        </a>
-    </li>
-        <div class="divider my-1 opacity-50"></div>
-        
-        <li><a href="{% url 'logout' %}" class="text-egmred py-2.5 font-bold"><i class="fa-solid fa-power-off"></i> Déconnexion</a></li>
-    
-    </ul>
-</div>
-{% else %}
-    <a href="{% url 'login' %}" class="btn btn-sm btn-outline border-slate-300 ml-2 hidden md:flex rounded-xl font-black italic uppercase text-[10px]">Connexion</a>
-{% endif %}
-            </div>
-        </div>
+                    </ul>
+                </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-sm btn-outline border-slate-300 ml-2 hidden md:flex rounded-xl font-black italic uppercase text-[10px]">Connexion</a>
+                {% endif %}
+                            </div>
+                        </div>
     </header>
 
-    <div class="drawer">
-        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-side z-[150]">
-            <label for="my-drawer" class="drawer-overlay"></label>
-            <ul class="menu p-6 w-80 min-h-full bg-white text-slate-800 font-bold uppercase tracking-wider space-y-4">
-                <li class="mb-6"><span class="text-2xl italic font-black">EGM<span class="text-egmred">.</span></span></li>
+
+<div class="drawer">
+    <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content">
+        </div> 
+    
+    <div class="drawer-side z-[150]">
+        <label for="my-drawer" class="drawer-overlay"></label>
+        <ul class="menu p-6 w-80 min-h-full bg-white text-slate-800 font-bold uppercase tracking-wider space-y-4">
+            <li class="mb-6 border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-3 px-0">
+                    <img src="{% static 'images/egm_logo.png' %}" class="h-10 w-auto">
+                    <span class="text-2xl italic font-black">EGM<span class="text-egmred">.</span></span>
+                </div>
+            </li>
                 <li><a href="{% url 'home' %}">Accueil</a></li>
                 <li><a href="{% url 'product_list' %}" class="hover:text-egmblue">Catalogue Produits</a></li>
-                <li><a href="{% url 'services' %}" class="hover:text-egmblue">Services</a></li> 
+                <li>
+                        <details>
+                            <summary class="text-egmblue">Nos Services</summary>
+                            <ul class="text-[10px]">
+                                <li><a href="{% url 'fibre_optique' %}">Fibre Optique</a></li>
+                                <li><a href="{% url 'securite_electronique' %}">Sécurité Électronique</a></li>
+                                <li><a href="{% url 'energie_solaire' %}">Énergie Solaire</a></li>
+                                <li><a href="{% url 'reseau_informatique' %}">Réseau Informatique</a></li>
+                                <li><a href="{% url 'maintenance_informatique' %}">Maintenance</a></li>
+                                <li><a href="{% url 'formation' %}">Formation</a></li>
+                            </ul>
+                        </details>
+                    </li>
                 <li><a href="{% url 'about' %}" class="hover:text-egmblue">À Propos</a></li>
                 <li><a href="{% url 'contact' %}" class="hover:text-egmblue">Contact</a></li> 
                 <li><a href="{% url 'request_quote' %}"> Devis</a></li>
@@ -142,6 +200,8 @@
             </ul>
         </div>
     </div>
+
+ 
 
     {% if messages %}
     <div class="toast toast-top toast-center md:toast-end z-[200]">
@@ -160,6 +220,7 @@
     <main class="flex-grow">
         {% block content %}{% endblock %}
     </main>
+
 <footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t border-slate-800 mt-20">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
         
